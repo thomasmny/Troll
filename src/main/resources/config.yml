@@ -1,0 +1,9 @@
+trollPlayers:
+  []
+settings:
+  interactions = true
+  blockDamage = true
+  placeBlocks = true
+  fallDamage = true
+  hunger = true
+  chat = true

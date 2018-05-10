@@ -1,0 +1,15 @@
+name: Troll
+version: 1.0
+main: de.eintosti.troll.Troll
+description: Heute ist Trolling angesagt!
+author: einTosti
+
+commands:
+    Troll:
+       description: Heute ist Trolling angesagt!
+       usage: /<command>
+
+permissions:
+    troll.use:
+        description: Nicht jeder darf abgehoben sein...
+        default: OP
