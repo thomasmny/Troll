@@ -434,7 +434,7 @@ public class InventoryClick implements Listener {
         }
     }
 
-    private ItemStack getEffectsItem(Player player) {
+    private void getEffectsItem(Player player) {
         ItemStack itemStack = new ItemStack(Material.BLAZE_POWDER);
         ItemMeta meta = itemStack.getItemMeta();
 
@@ -443,10 +443,9 @@ public class InventoryClick implements Listener {
         itemStack.setItemMeta(meta);
 
         player.getInventory().addItem(itemStack);
-        return itemStack;
     }
 
-    private ItemStack getLightningItem(Player player) {
+    private void getLightningItem(Player player) {
         ItemStack itemStack = new ItemStack(Material.IRON_AXE);
         ItemMeta meta = itemStack.getItemMeta();
 
@@ -455,10 +454,9 @@ public class InventoryClick implements Listener {
         itemStack.setItemMeta(meta);
 
         player.getInventory().addItem(itemStack);
-        return itemStack;
     }
 
-    private ItemStack getTntItem(Player player) {
+    private void getTntItem(Player player) {
         ItemStack itemStack = new ItemStack(Material.TNT);
         ItemMeta meta = itemStack.getItemMeta();
 
@@ -467,10 +465,9 @@ public class InventoryClick implements Listener {
         itemStack.setItemMeta(meta);
 
         player.getInventory().addItem(itemStack);
-        return itemStack;
     }
 
-    private ItemStack getFireballItem(Player player) {
+    private void getFireballItem(Player player) {
         ItemStack itemStack = new ItemStack(Material.FIREBALL);
         ItemMeta meta = itemStack.getItemMeta();
 
@@ -479,7 +476,6 @@ public class InventoryClick implements Listener {
         itemStack.setItemMeta(meta);
 
         player.getInventory().addItem(itemStack);
-        return itemStack;
     }
 
     private void addPotionEffekt(Player player, PotionEffectType potion, String potionName) {

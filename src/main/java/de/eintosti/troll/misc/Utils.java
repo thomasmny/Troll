@@ -16,7 +16,7 @@ import java.util.UUID;
  * @author einTosti
  */
 public class Utils {
-    public final String mPrefix = "§5Troll> ";
+    public String mPrefix = "§5Troll> ";
 
     public Boolean mInteractions = true;
     public Boolean mBlockDamage = true;

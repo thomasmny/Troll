@@ -17,7 +17,7 @@ public class PlayerChat implements Listener {
         Player player = event.getPlayer();
         if (!Utils.getInstance().mChat) {
             event.setCancelled(true);
-            player.sendMessage(mPrefix + "§7Der Chat ist zurzeit §cdeaktiviert");
+            player.sendMessage(mPrefix + "§7Der Chat ist zurzeit §cdeaktiviert§7.");
         }
     }
 }

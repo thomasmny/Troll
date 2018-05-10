@@ -13,7 +13,6 @@ public class BlockBreak implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        Player player = event.getPlayer();
         if (!Utils.getInstance().mInteractions) {
             event.setCancelled(true);
         }

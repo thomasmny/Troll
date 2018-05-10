@@ -34,9 +34,9 @@ public class TrollInventory {
 
         Utils.getInstance().addLoreItemStack(inv, 15, Material.IRON_AXE, 0, "§dThor's Hammer §7bekommen", "§7", "§7§oLässt an der Stelle, die du", "§7§oanschaust einen Blizt einschlagen");
         Utils.getInstance().addLoreItemStack(inv, 16, Material.TNT, 0, "§dTNT-Regen §7Item bekommen", "§7", "§7§oRuft an der Stelle, die du anschaust einen", "§7§oRegen an gezündeten TNT Blöcken herbei");
-        Utils.getInstance().addLoreItemStack(inv, 17, Material.FIREBALL, 0, "§dJudgement-Day §7Item bekommen", "§7", "§7§oLässt an der Stelle, die du anschaust", "§7§oein Armageddon einschlagen");
+        Utils.getInstance().addLoreItemStack(inv, 17, Material.FIREBALL, 0, "§dJudgement-Day §7Item bekommen", "§7", "§7§oLässt an der Stelle, die du anschaust", "§7§oein Sturm aus Feuerkugeln einschlagen");
 
-        Utils.getInstance().addLoreItemStack(inv, 22, Material.NETHER_STAR, 0, "§7Erweiterte §dEinstellungen", "§7", "§7§oÖffnet die Erweiterten Einstellungen");
+        Utils.getInstance().addLoreItemStack(inv, 22, Material.NETHER_STAR, 0, "§7Erweiterte §dEinstellungen", "§7", "§7§oÖffnet die erweiterten Einstellungen");
 
         return inv;
     }

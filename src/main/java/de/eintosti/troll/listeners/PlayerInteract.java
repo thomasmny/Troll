@@ -33,10 +33,10 @@ public class PlayerInteract implements Listener {
     @EventHandler
     public void onPlayerInteractCookie(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-
-        Action a = event.getAction();
+        Action action = event.getAction();
         ItemStack itemStack = event.getItem();
-        if ((a == Action.PHYSICAL) || (itemStack == null) || (itemStack.getType() == Material.AIR)) {
+
+        if ((action == Action.PHYSICAL) || (itemStack == null) || (itemStack.getType() == Material.AIR)) {
             return;
         }
 
@@ -59,15 +59,15 @@ public class PlayerInteract implements Listener {
     @EventHandler
     public void onPlayerInteractBlazePowder(PlayerInteractEvent event) {
         Player player = event.getPlayer();
+        Action action = event.getAction();
+        ItemStack itemStack = event.getItem();
 
-        Action a = event.getAction();
-        ItemStack is = event.getItem();
-        if ((a == Action.PHYSICAL) || (is == null) || (is.getType() == Material.AIR)) {
+        if ((action == Action.PHYSICAL) || (itemStack == null) || (itemStack.getType() == Material.AIR)) {
             return;
         }
 
-        if (is.getType().equals(Material.BLAZE_POWDER)) {
-            if (is.hasItemMeta()) {
+        if (itemStack.getType().equals(Material.BLAZE_POWDER)) {
+            if (itemStack.hasItemMeta()) {
                 if (Utils.getInstance().isAllowed(player)) {
                     event.setCancelled(true);
                     EffectInventory.getInstance().openInventory(player);
@@ -83,10 +83,10 @@ public class PlayerInteract implements Listener {
         }
 
         Player player = event.getPlayer();
-        ItemStack is = event.getItem();
-        ItemMeta meta = is.getItemMeta();
+        ItemStack itemStack = event.getItem();
+        ItemMeta itemMeta = itemStack.getItemMeta();
 
-        if (meta.getDisplayName().equals("§dThor's Hammer §7(Rechtsklick)")) {
+        if (itemMeta.getDisplayName().equals("§dThor's Hammer §7(Rechtsklick)")) {
             if (Utils.getInstance().isAllowed(player)) {
                 player.getWorld().strikeLightning(player.getTargetBlock((Set<Material>) null, 25).getLocation());
             }
@@ -127,12 +127,11 @@ public class PlayerInteract implements Listener {
     }
 
     private void summonFireball(Player player) {
-        Location target = player.getLocation().add(0, -1, 0);
-
-        int MAX = 60;
+        int max = 60;
         Random randomNum = new Random();
 
-        Location from = lookAt(player.getLocation().add(randomNum.nextInt(MAX) * (randomNum.nextBoolean() ? -1 : 1), randomNum.nextInt(MAX), randomNum.nextInt(MAX) * (randomNum.nextBoolean() ? -1 : 1)), target);
+        Location target = player.getLocation().add(0, -1, 0);
+        Location from = lookAt(player.getLocation().add(randomNum.nextInt(max) * (randomNum.nextBoolean() ? -1 : 1), randomNum.nextInt(max), randomNum.nextInt(max) * (randomNum.nextBoolean() ? -1 : 1)), target);
 
         from.getWorld().spawn(from, Fireball.class);
     }

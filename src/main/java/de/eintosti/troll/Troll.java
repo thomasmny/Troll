@@ -77,6 +77,7 @@ public class Troll extends JavaPlugin {
     }
 
     private void getConfigValues() {
+        //Troll players
         if (getConfig().getList("trollPlayers") != null) {
             List<String> list = getConfig().getStringList("trollPlayers");
             Utils.getInstance().mTrollEnabledPlayers.clear();
