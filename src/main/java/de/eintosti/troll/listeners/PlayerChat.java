@@ -10,14 +10,13 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
  * @author einTosti
  */
 public class PlayerChat implements Listener {
-    private final String mPrefix = Utils.getInstance().mPrefix;
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
         if (!Utils.getInstance().mChat) {
             event.setCancelled(true);
-            player.sendMessage(mPrefix + "§7Der Chat ist zurzeit §cdeaktiviert§7.");
+            player.sendMessage(Utils.getInstance().getString("chat_disabled"));
         }
     }
 }

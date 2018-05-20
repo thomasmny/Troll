@@ -29,7 +29,7 @@ public class GamemodeInventory {
     }
 
     private Inventory createInventory(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 27, "§5Gamemode");
+        Inventory inv = Bukkit.createInventory(null, 27, Utils.getInstance().getString("gamemode_guiName"));
         fillGuiWithGlass(inv, player);
         return inv;
     }
@@ -71,7 +71,7 @@ public class GamemodeInventory {
         SkullMeta meta = (SkullMeta) itemStack.getItemMeta();
 
         meta.setDisplayName("§d" + player.getName());
-        meta.setLore(Arrays.asList("§7Gamemode: §e" + getPlayerGamemode(player)));
+        meta.setLore(Arrays.asList(Utils.getInstance().getString("gamemode_lore").replace("%gamemode%", getPlayerGamemode(player))));
         meta.setOwner(player.getName());
 
         itemStack.setItemMeta(meta);
@@ -86,12 +86,12 @@ public class GamemodeInventory {
         }
 
         if (numOfPages > 1 && mInvIndex.get(player.getUniqueId()) > 0) {
-            Utils.getInstance().addSkull(inv, 18, "§5« §7Vorherige Seite", "MHF_ArrowLeft");
+            Utils.getInstance().addSkull(inv, 9, Utils.getInstance().getString("gamemode_arrowLeft"), "MHF_ArrowLeft");
         } else {
             Utils.getInstance().addGlassPane(inv, 18);
         }
         if (numOfPages > 1 && mInvIndex.get(player.getUniqueId()) < (numOfPages - 1)) {
-            Utils.getInstance().addSkull(inv, 26, "§7Nächste Seite §5»", "MHF_ArrowRight");
+            Utils.getInstance().addSkull(inv, 17, Utils.getInstance().getString("gamemode_arrowRight"), "MHF_ArrowRight");
         } else {
             Utils.getInstance().addGlassPane(inv, 26);
         }
@@ -125,16 +125,16 @@ public class GamemodeInventory {
 
         switch (player.getGameMode()) {
             case CREATIVE:
-                gameMode = "Creative";
+                gameMode = Utils.getInstance().getString("gamemode_lore_creative");
                 break;
             case SURVIVAL:
-                gameMode = "Survival";
+                gameMode = Utils.getInstance().getString("gamemode_lore_survival");
                 break;
             case ADVENTURE:
-                gameMode = "Adventure";
+                gameMode = Utils.getInstance().getString("gamemode_lore_adventure");
                 break;
             case SPECTATOR:
-                gameMode = "Spectator";
+                gameMode = Utils.getInstance().getString("gamemode_lore_spectator");
                 break;
         }
         return gameMode;

@@ -2,6 +2,7 @@ package de.eintosti.troll;
 
 import de.eintosti.troll.commands.TrollCommand;
 import de.eintosti.troll.listeners.*;
+import de.eintosti.troll.misc.Messages;
 import de.eintosti.troll.misc.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,8 +24,9 @@ public class Troll extends JavaPlugin {
 
         loadConfiguration();
         getConfigValues();
+        Messages.getInstance().createMessageFile();
 
-        getLogger().info("Plugin aktiviert");
+        getLogger().info("Plugin enabled");
     }
 
     @Override
@@ -33,7 +35,7 @@ public class Troll extends JavaPlugin {
         saveConfig();
 
         plugin = null;
-        getLogger().info("Plugin deaktiviert");
+        getLogger().info("Plugin enabled");
     }
 
     private void registerListeners() {

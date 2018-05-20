@@ -7,6 +7,7 @@ import de.eintosti.troll.misc.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,20 +24,19 @@ import org.bukkit.potion.PotionEffectType;
  * @author einTosti
  */
 public class InventoryClick implements Listener {
-    private final String mPrefix = Utils.getInstance().mPrefix;
 
     @EventHandler
     public void onTrollInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        if (!event.getInventory().getName().equals("§5Troll Menü")) {
-            return;
-        }
-        event.setCancelled(true);
-
         ItemStack itemStack = event.getCurrentItem();
-        if ((itemStack == null) || (itemStack.getType() == Material.AIR) || (!itemStack.hasItemMeta())) {
+
+        if (!event.getInventory().getName().equals(Utils.getInstance().getString("main_guiName")))
             return;
-        }
+        if (!Utils.getInstance().isAllowed(player))
+            return;
+        if ((itemStack == null) || (itemStack.getType() == Material.AIR) || (!itemStack.hasItemMeta()))
+            return;
+        event.setCancelled(true);
         Material itemType = itemStack.getType();
 
         //Kill all players
@@ -49,7 +49,7 @@ public class InventoryClick implements Listener {
                 }
             }
             player.closeInventory();
-            player.sendMessage(mPrefix + "§7Alle Spieler wurden §dgetötet§7.");
+            player.sendMessage(Utils.getInstance().getString("players_killed"));
         }
 
         //Manage effects
@@ -57,7 +57,7 @@ public class InventoryClick implements Listener {
             if (Utils.getInstance().isAllowed(player)) {
                 getEffectsItem(player);
                 player.closeInventory();
-                player.sendMessage(mPrefix + "§7Du hast das §dEffekt §7Item erhalten.");
+                player.sendMessage(Utils.getInstance().getString("received_effectItem"));
             }
         }
 
@@ -68,23 +68,23 @@ public class InventoryClick implements Listener {
                     pl.teleport(player);
                 }
             }
-            player.sendMessage(mPrefix + "§7Alle Spieler wurden zu dir §dteleportiert§7.");
+            player.sendMessage(Utils.getInstance().getString("players_teleported"));
         }
 
         //Manage player gamemode
         if (itemType == Material.GRASS) {
             GameMode gameMode = GameMode.SURVIVAL;
-            String string = "aus dem Kreativmodus §centfernt";
+            String string = Utils.getInstance().getString("creative_disabled");
 
             if (!player.getGameMode().equals(GameMode.CREATIVE)) {
                 gameMode = GameMode.CREATIVE;
-                string = "in den Kreativmodus §agesetzt§7";
+                string = Utils.getInstance().getString("creative_enabled");
             }
 
             if (Utils.getInstance().isAllowed(player)) {
                 player.closeInventory();
                 player.setGameMode(gameMode);
-                player.sendMessage(mPrefix + "§7Du wurdest " + string + "§7.");
+                player.sendMessage(string);
             }
         }
 
@@ -93,16 +93,16 @@ public class InventoryClick implements Listener {
             if (Utils.getInstance().isAllowed(player)) {
                 if (!Utils.getInstance().mKnockbackPlayers.contains(player.getUniqueId())) {
                     Utils.getInstance().mKnockbackPlayers.add(player.getUniqueId());
-                    player.sendMessage(mPrefix + "§7Verstärkter Rückstoß wurde §aaktiviert§7.");
+                    player.sendMessage(Utils.getInstance().getString("knockback_enabled"));
                 } else {
                     Utils.getInstance().mKnockbackPlayers.remove(player.getUniqueId());
-                    player.sendMessage(mPrefix + "§7Verstärkter Rückstoß wurde §cdeaktiviert§7.");
+                    player.sendMessage(Utils.getInstance().getString("knockback_disabled"));
                 }
                 player.closeInventory();
             }
         }
 
-        //Unsichtbarkeit
+        //Vanish
         if (itemType == Material.QUARTZ) {
             boolean enabled = false;
 
@@ -110,10 +110,10 @@ public class InventoryClick implements Listener {
                 if (!Utils.getInstance().mVanishedPlayers.contains(player.getUniqueId())) {
                     Utils.getInstance().mVanishedPlayers.add(player.getUniqueId());
                     enabled = true;
-                    player.sendMessage(mPrefix + "§7Du bist nun für alle Spieler §aunsichtbar§7.");
+                    player.sendMessage(Utils.getInstance().getString("vanish_enabled"));
                 } else {
                     Utils.getInstance().mVanishedPlayers.remove(player.getUniqueId());
-                    player.sendMessage(mPrefix + "§7Du bist nun für alle Spieler §csichtbar§7.");
+                    player.sendMessage(Utils.getInstance().getString("vanish_disabled"));
                 }
                 player.closeInventory();
 
@@ -127,21 +127,21 @@ public class InventoryClick implements Listener {
             }
         }
 
-        //dThor
+        //Thor
         if (itemType == Material.IRON_AXE) {
             if (Utils.getInstance().isAllowed(player)) {
                 player.closeInventory();
                 getLightningItem(player);
-                player.sendMessage(mPrefix + "§7Du hast §dThor's Hammer §7erhalten.");
+                player.sendMessage(Utils.getInstance().getString("received_thorHammer"));
             }
         }
 
-        //TNT-Regen
+        //TNT-Rain
         if (itemType == Material.TNT) {
             if (Utils.getInstance().isAllowed(player)) {
                 player.closeInventory();
                 getTntItem(player);
-                player.sendMessage(mPrefix + "§7Du hast das §dTNT-Regen §7Item erhalten.");
+                player.sendMessage(Utils.getInstance().getString("received_tntRain"));
             }
         }
 
@@ -150,11 +150,11 @@ public class InventoryClick implements Listener {
             if (Utils.getInstance().isAllowed(player)) {
                 player.closeInventory();
                 getFireballItem(player);
-                player.sendMessage(mPrefix + "§7Du hast das §dJudgement-Day §7Item erhalten.");
+                player.sendMessage(Utils.getInstance().getString("received_judgementDay"));
             }
         }
 
-        //Erweiterte Einstellungen
+        //Settings
         if (itemType == Material.NETHER_STAR) {
             if (Utils.getInstance().isAllowed(player)) {
                 SettingsInventory.getInstance().openInventory(player);
@@ -164,16 +164,16 @@ public class InventoryClick implements Listener {
 
     @EventHandler
     public void onSettingsInventoryClick(InventoryClickEvent event) {
-        if (!event.getInventory().getName().equals("§5Erweiterte Einstellungen")) {
-            return;
-        }
         Player player = (Player) event.getWhoClicked();
-        event.setCancelled(true);
-
         ItemStack itemStack = event.getCurrentItem();
-        if ((itemStack == null) || (itemStack.getType() == Material.AIR) || (!itemStack.hasItemMeta())) {
+
+        if (!event.getInventory().getName().equals(Utils.getInstance().getString("settings_guiName")))
             return;
-        }
+        if (!Utils.getInstance().isAllowed(player))
+            return;
+        if ((itemStack == null) || (itemStack.getType() == Material.AIR) || (!itemStack.hasItemMeta()))
+            return;
+        event.setCancelled(true);
 
         switch (event.getSlot()) {
             case 18:
@@ -246,16 +246,16 @@ public class InventoryClick implements Listener {
     @EventHandler
     public void onGamemodeInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-
-        if (!event.getInventory().getName().equals("§5Gamemode")) {
-            return;
-        }
-
-        event.setCancelled(true);
         ItemStack itemStack = event.getCurrentItem();
-        if ((itemStack == null) || (itemStack.getType() == Material.AIR) || (!itemStack.hasItemMeta())) {
+
+        if (!event.getInventory().getName().equals(Utils.getInstance().getString("gamemode_guiName")))
             return;
-        }
+        if (!Utils.getInstance().isAllowed(player))
+            return;
+        if ((itemStack == null) || (itemStack.getType() == Material.AIR) || (!itemStack.hasItemMeta()))
+            return;
+        event.setCancelled(true);
+
         if (Utils.getInstance().isAllowed(player)) {
             if (itemStack.getType() == Material.SKULL_ITEM) {
                 SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
@@ -291,19 +291,19 @@ public class InventoryClick implements Listener {
 
     @EventHandler
     public void onPermissionInventoryClick(InventoryClickEvent event) {
-        if (!event.getInventory().getName().equals("§5Rechtesystem")) {
-            return;
-        }
-        event.setCancelled(true);
         Player player = (Player) event.getWhoClicked();
+        ItemStack itemStack = event.getCurrentItem();
 
-        ItemStack selectedItemStack = event.getCurrentItem();
-        if ((selectedItemStack == null) || (selectedItemStack.getType() == Material.AIR) || (selectedItemStack.getType() != Material.INK_SACK) || (!selectedItemStack.hasItemMeta())) {
+        if (!event.getInventory().getName().equals(Utils.getInstance().getString("permissions_guiName")))
             return;
-        }
+        if (!Utils.getInstance().isAllowed(player))
+            return;
+        if ((itemStack == null) || (itemStack.getType() == Material.AIR) || (!itemStack.hasItemMeta()))
+            return;
+        event.setCancelled(true);
 
-        if (selectedItemStack.getType() == Material.SKULL_ITEM) {
-            SkullMeta skullMeta = (SkullMeta) selectedItemStack.getItemMeta();
+        if (itemStack.getType() == Material.SKULL_ITEM) {
+            SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
             switch (event.getSlot()) {
                 case 9:
                     if (skullMeta.getOwner().equals("MHF_ArrowLeft")) {
@@ -319,103 +319,103 @@ public class InventoryClick implements Listener {
             }
         }
 
-        if (Utils.getInstance().isAllowed(player)) {
-            Inventory inv = PermissionInventory.getInstance().getInventory(player);
-            int skullSlot = event.getSlot() - 9;
+        Inventory inv = PermissionInventory.getInstance().getInventory(player);
+        int skullSlot = event.getSlot() - 9;
 
-            if (skullSlot >= 10 && skullSlot <= 16) {
-                ItemStack itemStack = inv.getItem(skullSlot);
-                SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
-                Player skullOwner = Bukkit.getServer().getPlayer(skullMeta.getOwner());
+        if (skullSlot >= 10 && skullSlot <= 16) {
+            ItemStack skullItem = inv.getItem(skullSlot);
+            SkullMeta skullMeta = (SkullMeta) skullItem.getItemMeta();
+            Player skullOwner = Bukkit.getServer().getPlayer(skullMeta.getOwner());
 
-                if (!Utils.getInstance().mTrollEnabledPlayers.contains(skullOwner.getName())) {
-                    Utils.getInstance().mTrollEnabledPlayers.add(skullOwner.getName());
+            if (!Utils.getInstance().mTrollEnabledPlayers.contains(skullOwner.getName())) {
+                Utils.getInstance().mTrollEnabledPlayers.add(skullOwner.getName());
 
-                    skullOwner.sendMessage(mPrefix + "§7Du hast nun §aRechte §7auf das §dTrollmenü§7.");
-                    for (Player pl : Bukkit.getOnlinePlayers()) {
-                        if (!pl.equals(skullOwner) && Utils.getInstance().isAllowed(pl)) {
-                            pl.sendMessage(mPrefix + "§7" + skullOwner.getName() + " §7hat nun §aRechte §7auf das §dTrollmenü§7.");
-                        }
-                    }
-                } else {
-                    Utils.getInstance().mTrollEnabledPlayers.remove(skullOwner.getName());
-
-                    skullOwner.sendMessage(mPrefix + "§7Du hast nun §ckeine Rechte §7mehr auf das §dTrollmenü§7.");
-                    for (Player pl : Bukkit.getOnlinePlayers()) {
-                        if (!pl.equals(skullOwner) && Utils.getInstance().isAllowed(pl)) {
-                            pl.sendMessage(mPrefix + "§7" + skullOwner.getName() + " §7hat nun §ckeine Rechte §7mehr auf das §dTrollmenü§7.");
-                        }
+                skullOwner.sendMessage(Utils.getInstance().getString("permissions_receive_player"));
+                for (Player pl : Bukkit.getOnlinePlayers()) {
+                    if (!pl.equals(skullOwner) && Utils.getInstance().isAllowed(pl)) {
+                        pl.sendMessage(Utils.getInstance().getString("permissions_receive_all").replace("%player%", skullOwner.getName()));
                     }
                 }
-                inv = PermissionInventory.getInstance().getInventory(player);
-                player.openInventory(inv);
+            } else {
+                Utils.getInstance().mTrollEnabledPlayers.remove(skullOwner.getName());
+
+                skullOwner.sendMessage(Utils.getInstance().getString("permissions_remove_player"));
+                for (Player pl : Bukkit.getOnlinePlayers()) {
+                    if (!pl.equals(skullOwner) && Utils.getInstance().isAllowed(pl)) {
+                        pl.sendMessage(Utils.getInstance().getString("permissions_remove_all").replace("%player%", skullOwner.getName()));
+                    }
+                }
             }
+            inv = PermissionInventory.getInstance().getInventory(player);
+            player.openInventory(inv);
         }
     }
 
     @EventHandler
     public void onEffectInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        if (!event.getInventory().getName().equals("§5Effekt Menü")) {
-            return;
-        }
-        event.setCancelled(true);
         ItemStack itemStack = event.getCurrentItem();
-        if ((itemStack == null) || (itemStack.getType() == Material.AIR) || (!itemStack.hasItemMeta())) {
+
+        if (!event.getInventory().getName().equals(Utils.getInstance().getString("effect_guiName")))
             return;
-        }
+        if (!Utils.getInstance().isAllowed(player))
+            return;
+        if ((itemStack == null) || (itemStack.getType() == Material.AIR) || (!itemStack.hasItemMeta()))
+            return;
+        event.setCancelled(true);
+
         if (Utils.getInstance().isAllowed(player)) {
             switch (event.getSlot()) {
                 case 0:
-                    addPotionEffekt(player, PotionEffectType.BLINDNESS, "Blindheit");
+                    addPotionEffekt(player, PotionEffectType.BLINDNESS,  Utils.getInstance().getString("effect_blindness"));
                     break;
                 case 1:
-                    addPotionEffekt(player, PotionEffectType.CONFUSION, "Verwirrung");
+                    addPotionEffekt(player, PotionEffectType.CONFUSION,  Utils.getInstance().getString("effect_nausea"));
                     break;
                 case 2:
-                    addPotionEffekt(player, PotionEffectType.DAMAGE_RESISTANCE, "Resistenz");
+                    addPotionEffekt(player, PotionEffectType.DAMAGE_RESISTANCE,  Utils.getInstance().getString("effect_resistance"));
                     break;
                 case 3:
-                    addPotionEffekt(player, PotionEffectType.FAST_DIGGING, "Eile");
+                    addPotionEffekt(player, PotionEffectType.FAST_DIGGING,  Utils.getInstance().getString("effect_haste"));
                     break;
                 case 4:
-                    addPotionEffekt(player, PotionEffectType.FIRE_RESISTANCE, "Feuerresistenz");
+                    addPotionEffekt(player, PotionEffectType.FIRE_RESISTANCE,  Utils.getInstance().getString("effect_fireResistance"));
                     break;
                 case 5:
-                    addPotionEffekt(player, PotionEffectType.HUNGER, "Hunger");
+                    addPotionEffekt(player, PotionEffectType.HUNGER,  Utils.getInstance().getString("effect_hunger"));
                     break;
                 case 6:
-                    addPotionEffekt(player, PotionEffectType.INCREASE_DAMAGE, "Stärke");
+                    addPotionEffekt(player, PotionEffectType.INCREASE_DAMAGE,  Utils.getInstance().getString("effect_strength"));
                     break;
                 case 7:
-                    addPotionEffekt(player, PotionEffectType.INVISIBILITY, "Unsichtbarkeit");
+                    addPotionEffekt(player, PotionEffectType.INVISIBILITY,  Utils.getInstance().getString("effect_invisibility"));
                     break;
                 case 8:
-                    addPotionEffekt(player, PotionEffectType.JUMP, "Sprungkraft");
+                    addPotionEffekt(player, PotionEffectType.JUMP,  Utils.getInstance().getString("effect_jumpBoost"));
                     break;
                 case 9:
-                    addPotionEffekt(player, PotionEffectType.NIGHT_VISION, "Nachtsicht");
+                    addPotionEffekt(player, PotionEffectType.NIGHT_VISION,  Utils.getInstance().getString("effect_nightVision"));
                     break;
                 case 10:
-                    addPotionEffekt(player, PotionEffectType.POISON, "Vergiftung");
+                    addPotionEffekt(player, PotionEffectType.POISON,  Utils.getInstance().getString("effect_poison"));
                     break;
                 case 11:
-                    addPotionEffekt(player, PotionEffectType.REGENERATION, "Regeneration");
+                    addPotionEffekt(player, PotionEffectType.REGENERATION,  Utils.getInstance().getString("effect_regeneration"));
                     break;
                 case 12:
-                    addPotionEffekt(player, PotionEffectType.SLOW, "Langsamkeit");
+                    addPotionEffekt(player, PotionEffectType.SLOW,  Utils.getInstance().getString("effect_slowness"));
                     break;
                 case 13:
-                    addPotionEffekt(player, PotionEffectType.SLOW_DIGGING, "Abbaulähmung");
+                    addPotionEffekt(player, PotionEffectType.SLOW_DIGGING,  Utils.getInstance().getString("effect_miningFatigue"));
                     break;
                 case 14:
-                    addPotionEffekt(player, PotionEffectType.SPEED, "Schnelligkeit");
+                    addPotionEffekt(player, PotionEffectType.SPEED,  Utils.getInstance().getString("effect_speed"));
                     break;
                 case 15:
-                    addPotionEffekt(player, PotionEffectType.WATER_BREATHING, "Unterwasseratmung");
+                    addPotionEffekt(player, PotionEffectType.WATER_BREATHING,  Utils.getInstance().getString("effect_waterBreathing"));
                     break;
                 case 16:
-                    addPotionEffekt(player, PotionEffectType.WEAKNESS, "Schwäche");
+                    addPotionEffekt(player, PotionEffectType.WEAKNESS, Utils.getInstance().getString("effect_weakness"));
                     break;
                 case 20:
                     for (Player pl : Bukkit.getOnlinePlayers()) {
@@ -425,7 +425,7 @@ public class InventoryClick implements Listener {
                             }
                         }
                     }
-                    player.sendMessage(mPrefix + "§7Alle Mitspieler wurden §dangezündet§7.");
+                    player.sendMessage(Utils.getInstance().getString("players_burn"));
                     break;
                 case 24:
                     removeAllEffects(player);
@@ -438,7 +438,7 @@ public class InventoryClick implements Listener {
         ItemStack itemStack = new ItemStack(Material.BLAZE_POWDER);
         ItemMeta meta = itemStack.getItemMeta();
 
-        meta.setDisplayName("§dEffekt Menü öffnen §7(Rechtsklick)");
+        meta.setDisplayName(Utils.getInstance().getString("effect_item"));
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         itemStack.setItemMeta(meta);
 
@@ -449,7 +449,7 @@ public class InventoryClick implements Listener {
         ItemStack itemStack = new ItemStack(Material.IRON_AXE);
         ItemMeta meta = itemStack.getItemMeta();
 
-        meta.setDisplayName("§dThor's Hammer §7(Rechtsklick)");
+        meta.setDisplayName(Utils.getInstance().getString("thorHammer_item"));
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         itemStack.setItemMeta(meta);
 
@@ -460,7 +460,7 @@ public class InventoryClick implements Listener {
         ItemStack itemStack = new ItemStack(Material.TNT);
         ItemMeta meta = itemStack.getItemMeta();
 
-        meta.setDisplayName("§dTNT-Regen herbeirufen §7(Rechtsklick)");
+        meta.setDisplayName(Utils.getInstance().getString("tntRain_item"));
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         itemStack.setItemMeta(meta);
 
@@ -471,7 +471,7 @@ public class InventoryClick implements Listener {
         ItemStack itemStack = new ItemStack(Material.FIREBALL);
         ItemMeta meta = itemStack.getItemMeta();
 
-        meta.setDisplayName("§dJudgement-Day herbeirufen §7(Rechtsklick)");
+        meta.setDisplayName(Utils.getInstance().getString("judgementDay_item"));
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         itemStack.setItemMeta(meta);
 
@@ -482,11 +482,11 @@ public class InventoryClick implements Listener {
         for (Player pl : Bukkit.getOnlinePlayers()) {
             if (!(pl.equals(player))) {
                 if (Utils.getInstance().isAllowed(player)) {
-                    pl.addPotionEffect(new PotionEffect(potion, 400, 1));
+                    pl.addPotionEffect(new PotionEffect(potion, Integer.MAX_VALUE, 1));
                 }
             }
         }
-        player.sendMessage(mPrefix + "§d" + potionName + " §7wurde auf alle Spieler gewirkt.");
+        player.sendMessage(Utils.getInstance().getString("players_receiveEffects").replace("%effect%", potionName));
     }
 
     private void removeAllEffects(Player player) {
@@ -514,7 +514,7 @@ public class InventoryClick implements Listener {
                 }
             }
         }
-        player.sendMessage(mPrefix + "§7Die §dStatuseffekte §7aller Mitspieler wurden §centfernt§7.");
+        player.sendMessage(Utils.getInstance().getString("players_removeEffects"));
     }
 
     private void goBackGamemode(Player player) {

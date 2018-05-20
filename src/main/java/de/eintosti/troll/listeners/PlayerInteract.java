@@ -3,6 +3,7 @@ package de.eintosti.troll.listeners;
 import de.eintosti.troll.Troll;
 import de.eintosti.troll.inventories.EffectInventory;
 import de.eintosti.troll.inventories.TrollInventory;
+import de.eintosti.troll.misc.ActionBar;
 import de.eintosti.troll.misc.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -21,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
 
@@ -28,10 +30,9 @@ import java.util.Set;
  * @author einTosti
  */
 public class PlayerInteract implements Listener {
-    private final String mPrefix = Utils.getInstance().mPrefix;
 
     @EventHandler
-    public void onPlayerInteractCookie(PlayerInteractEvent event) {
+    public void onPlayerInteractFish(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Action action = event.getAction();
         ItemStack itemStack = event.getItem();
@@ -44,13 +45,13 @@ public class PlayerInteract implements Listener {
             if (itemStack.hasItemMeta()) {
                 ItemMeta itemMeta = itemStack.getItemMeta();
 
-                if (itemMeta.getDisplayName() != null && itemMeta.getDisplayName().equals("§dTroll Menü öffnen §7(Rechtsklick)")) {
-                    if (Utils.getInstance().isAllowed(player)) {
-                        event.setCancelled(true);
-                        TrollInventory.getInstance().openInventory(player);
-                    } else {
-                        player.sendMessage(mPrefix + "§7Was dieses Item wohl macht...");
+                if (itemMeta.getDisplayName() != null && itemMeta.getDisplayName().equals(Utils.getInstance().getString("troll_item"))) {
+                    if (!Utils.getInstance().isAllowed(player)) {
+                        player.sendMessage(Utils.getInstance().getString("no_permissions"));
+                        return;
                     }
+                    event.setCancelled(true);
+                    TrollInventory.getInstance().openInventory(player);
                 }
             }
         }
@@ -66,9 +67,16 @@ public class PlayerInteract implements Listener {
             return;
         }
 
-        if (itemStack.getType().equals(Material.BLAZE_POWDER)) {
+        if (itemStack.getType() == Material.BLAZE_POWDER) {
             if (itemStack.hasItemMeta()) {
-                if (Utils.getInstance().isAllowed(player)) {
+                ItemMeta itemMeta = itemStack.getItemMeta();
+
+                if (itemMeta.getDisplayName() != null && itemMeta.getDisplayName().equals(Utils.getInstance().getString("effect_item"))) {
+                    if (!Utils.getInstance().isAllowed(player)) {
+                        player.sendMessage(Utils.getInstance().getString("no_permissions"));
+                        return;
+                    }
+
                     event.setCancelled(true);
                     EffectInventory.getInstance().openInventory(player);
                 }
@@ -86,10 +94,12 @@ public class PlayerInteract implements Listener {
         ItemStack itemStack = event.getItem();
         ItemMeta itemMeta = itemStack.getItemMeta();
 
-        if (itemMeta.getDisplayName().equals("§dThor's Hammer §7(Rechtsklick)")) {
-            if (Utils.getInstance().isAllowed(player)) {
-                player.getWorld().strikeLightning(player.getTargetBlock((Set<Material>) null, 25).getLocation());
+        if (itemMeta.getDisplayName().equals(Utils.getInstance().getString("thorHammer_item"))) {
+            if (!Utils.getInstance().isAllowed(player)) {
+                player.sendMessage(Utils.getInstance().getString("no_permissions"));
+                return;
             }
+            player.getWorld().strikeLightning(player.getTargetBlock((Set<Material>) null, 25).getLocation());
         }
     }
 
@@ -101,45 +111,20 @@ public class PlayerInteract implements Listener {
         ItemStack itemStack = event.getItem();
         ItemMeta itemMeta = itemStack.getItemMeta();
 
-        if (itemMeta.getDisplayName().equals("§dJudgement-Day herbeirufen §7(Rechtsklick)")) {
+        if (itemMeta.getDisplayName().equals(Utils.getInstance().getString("judgementDay_item"))) {
             Player player = event.getPlayer();
+            event.setCancelled(true);
 
-            if (Utils.getInstance().isAllowed(player)) {
-                event.setCancelled(true);
+            if (!Utils.getInstance().isAllowed(player)) {
+                player.sendMessage(Utils.getInstance().getString("no_permissions"));
+                return;
+            }
 
-                delayFireball(player, 20);
-                delayFireball(player, 40);
-                delayFireball(player, 60);
-                delayFireball(player, 80);
-                delayFireball(player, 100);
-                delayFireball(player, 120);
-                delayFireball(player, 140);
-                delayFireball(player, 160);
-                delayFireball(player, 180);
-                delayFireball(player, 200);
-                delayFireball(player, 220);
-                delayFireball(player, 240);
-                delayFireball(player, 260);
-                delayFireball(player, 280);
-                delayFireball(player, 300);
+            ActionBar.sendHotBarMessage(player, Utils.getInstance().getString("called_judgementDay"));
+            for (int i = 1; i <= 30; i++) {
+                delayFireball(player, i * 20);
             }
         }
-    }
-
-    private void summonFireball(Player player) {
-        int max = 60;
-        Random randomNum = new Random();
-
-        Location target = player.getLocation().add(0, -1, 0);
-        Location from = lookAt(player.getLocation().add(randomNum.nextInt(max) * (randomNum.nextBoolean() ? -1 : 1), randomNum.nextInt(max), randomNum.nextInt(max) * (randomNum.nextBoolean() ? -1 : 1)), target);
-
-        from.getWorld().spawn(from, Fireball.class);
-    }
-
-    private void delayFireball(Player player, int delay) {
-        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Troll.plugin, () -> {
-            summonFireball(player);
-        }, delay);
     }
 
     @EventHandler
@@ -148,60 +133,19 @@ public class PlayerInteract implements Listener {
             return;
         }
         Player player = event.getPlayer();
-        int y = player.getLocation().getBlockY() + 5;
+        ItemStack itemStack = event.getItem();
+        ItemMeta itemMeta = itemStack.getItemMeta();
 
-        double x1 = player.getLocation().getBlockX();
-        double z1 = player.getLocation().getBlockZ();
-
-        double x2 = player.getLocation().getBlockX() + 4;
-        double z2 = player.getLocation().getBlockZ();
-
-        double x3 = player.getLocation().getBlockX();
-        double z3 = player.getLocation().getBlockZ() + 4;
-
-        double x4 = player.getLocation().getBlockX() - 4;
-        double z4 = player.getLocation().getBlockZ();
-
-        double x5 = player.getLocation().getBlockX();
-        double z5 = player.getLocation().getBlockZ() - 4;
-
-        double x6 = player.getLocation().getBlockX() + 4;
-        double z6 = player.getLocation().getBlockZ() + 4;
-
-        double x7 = player.getLocation().getBlockX() + 4;
-        double z7 = player.getLocation().getBlockZ() - 4;
-
-        double x8 = player.getLocation().getBlockX() - 4;
-        double z8 = player.getLocation().getBlockZ() - 4;
-
-        double x9 = player.getLocation().getBlockX() - 4;
-        double z9 = player.getLocation().getBlockZ() + 4;
-
-        Location loc1 = new Location(player.getWorld(), x1, y, z1);
-        Location loc2 = new Location(player.getWorld(), x2, y, z2);
-        Location loc3 = new Location(player.getWorld(), x3, y, z3);
-        Location loc4 = new Location(player.getWorld(), x4, y, z4);
-        Location loc5 = new Location(player.getWorld(), x5, y, z5);
-        Location loc6 = new Location(player.getWorld(), x6, y, z6);
-        Location loc7 = new Location(player.getWorld(), x7, y, z7);
-        Location loc8 = new Location(player.getWorld(), x8, y, z8);
-        Location loc9 = new Location(player.getWorld(), x9, y, z9);
-
-        ItemStack is = event.getItem();
-        ItemMeta meta = is.getItemMeta();
-
-        if (meta.getDisplayName().equals("§dTNT-Regen herbeirufen §7(Rechtsklick)")) {
+        if (itemMeta.getDisplayName().equals(Utils.getInstance().getString("tntRain_item"))) {
             event.setCancelled(true);
-            if (Utils.getInstance().isAllowed(player)) {
-                loc1.getWorld().spawnEntity(loc1, EntityType.PRIMED_TNT);
-                loc2.getWorld().spawnEntity(loc2, EntityType.PRIMED_TNT);
-                loc3.getWorld().spawnEntity(loc3, EntityType.PRIMED_TNT);
-                loc4.getWorld().spawnEntity(loc4, EntityType.PRIMED_TNT);
-                loc5.getWorld().spawnEntity(loc5, EntityType.PRIMED_TNT);
-                loc6.getWorld().spawnEntity(loc6, EntityType.PRIMED_TNT);
-                loc7.getWorld().spawnEntity(loc7, EntityType.PRIMED_TNT);
-                loc8.getWorld().spawnEntity(loc8, EntityType.PRIMED_TNT);
-                loc9.getWorld().spawnEntity(loc9, EntityType.PRIMED_TNT);
+            if (!Utils.getInstance().isAllowed(player)) {
+                player.sendMessage(Utils.getInstance().getString("no_permissions"));
+                return;
+            }
+
+            ActionBar.sendHotBarMessage(player, Utils.getInstance().getString("called_tntRain"));
+            for (Location location : getLocations(player)) {
+                location.getWorld().spawnEntity(location, EntityType.PRIMED_TNT);
             }
         }
     }
@@ -219,9 +163,44 @@ public class PlayerInteract implements Listener {
         return true;
     }
 
+    private void summonFireball(Player player) {
+        int max = 60;
+        Random randomNum = new Random();
+
+        Location target = player.getLocation().add(0, -2, 0);
+        Location from = lookAt(player.getLocation().add(randomNum.nextInt(max) * (randomNum.nextBoolean() ? -1 : 1), randomNum.nextInt(max), randomNum.nextInt(max) * (randomNum.nextBoolean() ? -1 : 1)), target);
+
+        from.getWorld().spawn(from, Fireball.class);
+    }
+
+    private void delayFireball(Player player, int delay) {
+        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Troll.plugin, () -> {
+            summonFireball(player);
+        }, delay);
+    }
+
+    private Location[] getLocations(Player player) {
+        Location[] locations = new Location[9];
+
+        double y = player.getLocation().getY() + 5;
+        double x = player.getLocation().getX();
+        double z = player.getLocation().getZ();
+
+        locations[0] = new Location(player.getWorld(), x, y, z);
+        locations[1] = new Location(player.getWorld(), x + 4, y, z);
+        locations[2] = new Location(player.getWorld(), x, y, z + 4);
+        locations[3] = new Location(player.getWorld(), x - 4, y, z);
+        locations[4] = new Location(player.getWorld(), x, y, z - 4);
+        locations[5] = new Location(player.getWorld(), x + 4, y, z + 4);
+        locations[6] = new Location(player.getWorld(), x + 4, y, z - 4);
+        locations[7] = new Location(player.getWorld(), x - 4, y, z + 4);
+        locations[8] = new Location(player.getWorld(), x - 4, y, z - 4);
+
+        return locations;
+    }
+
     private Location lookAt(Location loc, Location lookat) {
         loc = loc.clone();
-
         double dx = lookat.getX() - loc.getX();
         double dy = lookat.getY() - loc.getY();
         double dz = lookat.getZ() - loc.getZ();

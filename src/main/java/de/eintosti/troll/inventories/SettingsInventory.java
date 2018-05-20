@@ -20,15 +20,15 @@ public class SettingsInventory {
     }
 
     private Inventory getSettingsInventory(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 27, "§5Erweiterte Einstellungen");
+        Inventory inv = Bukkit.createInventory(null, 27, Utils.getInstance().getString("settings_guiName"));
         fillSettingsGlass(inv);
 
-        Utils.getInstance().addSimpleItemStack(inv, 9, Material.STONE, 0, "§dBlock Inteaktionen");
-        Utils.getInstance().addSimpleItemStack(inv, 10, Material.TNT, 0, "§dBlockschaden");
-        Utils.getInstance().addSimpleItemStack(inv, 11, Material.SANDSTONE, 0, "§dBlöcke setzen");
-        Utils.getInstance().addSimpleItemStack(inv, 12, Material.DIAMOND_BOOTS, 0, "§dFallschaden");
-        Utils.getInstance().addSimpleItemStack(inv, 13, Material.COOKED_BEEF, 0, "§dHunger");
-        Utils.getInstance().addSimpleItemStack(inv, 14, Material.PAPER, 0, "§dChat");
+        Utils.getInstance().addSimpleItemStack(inv, 9, Material.STONE, 0, Utils.getInstance().getString("settings_blockInteractions"));
+        Utils.getInstance().addSimpleItemStack(inv, 10, Material.TNT, 0, Utils.getInstance().getString("settings_blockDamage"));
+        Utils.getInstance().addSimpleItemStack(inv, 11, Material.SANDSTONE, 0, Utils.getInstance().getString("settings_placeBlocks"));
+        Utils.getInstance().addSimpleItemStack(inv, 12, Material.DIAMOND_BOOTS, 0, Utils.getInstance().getString("settings_fallDamage"));
+        Utils.getInstance().addSimpleItemStack(inv, 13, Material.COOKED_BEEF, 0, Utils.getInstance().getString("settings_hunger"));
+        Utils.getInstance().addSimpleItemStack(inv, 14, Material.PAPER, 0, Utils.getInstance().getString("settings_chat"));
 
         addInteractionItem(inv);
         addBlockDamageItem(inv);
@@ -37,8 +37,8 @@ public class SettingsInventory {
         addHungerItem(inv);
         addChatItem(inv);
 
-        Utils.getInstance().addSkull(inv, 16, "§dGamemode Menü", player.getName());
-        Utils.getInstance().addSimpleItemStack(inv, 17, Material.COOKIE, 0, "§dRechtesystem");
+        Utils.getInstance().addSkull(inv, 16, Utils.getInstance().getString("settings_gamemode"), player.getName());
+        Utils.getInstance().addSimpleItemStack(inv, 17, Material.RAW_FISH, 3, Utils.getInstance().getString("settings_permissions"));
 
         return inv;
     }

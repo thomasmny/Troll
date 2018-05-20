@@ -21,51 +21,51 @@ public class TrollInventory {
     }
 
     private Inventory getTrollInventory(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 27, "§5Troll Menü");
+        Inventory inv = Bukkit.createInventory(null, 27, Utils.getInstance().getString("main_guiName"));
         fillGuiWithGlass(inv);
 
-        Utils.getInstance().addLoreItemStack(inv, 3, Material.DIAMOND_SWORD, 0, "§7Alle §dSpieler töten", "§7", "§7§oLässt alle Spieler des Servers sterben");
-        Utils.getInstance().addLoreItemStack(inv, 4, Material.BLAZE_POWDER, 0, "§dEffekt §7Item bekommen", "§7", "§7§oÖffnet ein Menü, indem du allen Mitspielern", "§7§oStatuseffekte auferlegen kannst");
-        Utils.getInstance().addLoreItemStack(inv, 5, Material.ENDER_PEARL, 0, "§7Spieler §dteleportieren", "§7", "§7§oLässt alle Spieler zu dir teleportieren");
+        Utils.getInstance().addLoreItemStack(inv, 3, Material.DIAMOND_SWORD, 0, Utils.getInstance().getString("main_killPlayers"), "§7", Utils.getInstance().getString("main_killPlayers_lore"));
+        Utils.getInstance().addLoreItemStack(inv, 4, Material.BLAZE_POWDER, 0, Utils.getInstance().getString("main_effectItem"), "§7", Utils.getInstance().getString("main_effectItem_lore"));
+        Utils.getInstance().addLoreItemStack(inv, 5, Material.ENDER_PEARL, 0, Utils.getInstance().getString("main_playerTeleport"), "§7", Utils.getInstance().getString("main_playerTeleport_lore"));
 
         addGamemodeItem(player, inv);
         addKnockbackItem(player, inv);
         addVanishItem(player, inv);
 
-        Utils.getInstance().addLoreItemStack(inv, 15, Material.IRON_AXE, 0, "§dThor's Hammer §7bekommen", "§7", "§7§oLässt an der Stelle, die du", "§7§oanschaust einen Blizt einschlagen");
-        Utils.getInstance().addLoreItemStack(inv, 16, Material.TNT, 0, "§dTNT-Regen §7Item bekommen", "§7", "§7§oRuft an der Stelle, die du anschaust einen", "§7§oRegen an gezündeten TNT Blöcken herbei");
-        Utils.getInstance().addLoreItemStack(inv, 17, Material.FIREBALL, 0, "§dJudgement-Day §7Item bekommen", "§7", "§7§oLässt an der Stelle, die du anschaust", "§7§oein Sturm aus Feuerkugeln einschlagen");
+        Utils.getInstance().addLoreItemStack(inv, 15, Material.IRON_AXE, 0, Utils.getInstance().getString("main_thorHammer"), "§7", Utils.getInstance().getString("main_thorHammer_lore"));
+        Utils.getInstance().addLoreItemStack(inv, 16, Material.TNT, 0, Utils.getInstance().getString("main_tntRain"), "§7", Utils.getInstance().getString("main_tntRain_lore"));
+        Utils.getInstance().addLoreItemStack(inv, 17, Material.FIREBALL, 0, Utils.getInstance().getString("main_judgementDay"), "§7",Utils.getInstance().getString("main_judgementDay_lore"));
 
-        Utils.getInstance().addLoreItemStack(inv, 22, Material.NETHER_STAR, 0, "§7Erweiterte §dEinstellungen", "§7", "§7§oÖffnet die erweiterten Einstellungen");
+        Utils.getInstance().addLoreItemStack(inv, 22, Material.NETHER_STAR, 0, Utils.getInstance().getString("main_settings"), "§7", Utils.getInstance().getString("main_settings_lore"));
 
         return inv;
     }
 
     private void addGamemodeItem(Player player, Inventory inv) {
-        String displayName = "§aaktivieren";
+        String displayName = Utils.getInstance().getString("main_gamemodeItem_disabled");
 
         if (player.getGameMode().equals(GameMode.CREATIVE)) {
-            displayName = "§cdeaktivieren";
+            displayName = Utils.getInstance().getString("main_gamemodeItem_enabled");
         }
-        Utils.getInstance().addLoreItemStack(inv, 9, Material.GRASS, 0, "§7Kreativmodus " + displayName, "§7", "§7§oVersetzt dich in den Kreativmodus");
+        Utils.getInstance().addLoreItemStack(inv, 9, Material.GRASS, 0, displayName, "§7", Utils.getInstance().getString("main_gamemodeItem_lore"));
     }
 
     private void addVanishItem(Player player, Inventory inv) {
-        String displayName = "§aaktivieren";
+        String displayName = Utils.getInstance().getString("main_vanishItem_disabled");
 
         if (Utils.getInstance().mVanishedPlayers.contains(player.getUniqueId())) {
-            displayName = "§cdeaktivieren";
+            displayName = Utils.getInstance().getString("main_vanishItem_enabled");
         }
-        Utils.getInstance().addLoreItemStack(inv, 11, Material.QUARTZ, 0, "§7Unsichtbarkeit " + displayName, "§7", "§7§oMacht dich für deine Mitspieler unsichtbar");
+        Utils.getInstance().addLoreItemStack(inv, 11, Material.QUARTZ, 0, displayName, "§7", Utils.getInstance().getString("main_vanishItem_lore"));
     }
 
     private void addKnockbackItem(Player player, Inventory inv) {
-        String displayName = "§aaktivieren";
+        String displayName = Utils.getInstance().getString("main_knockbackItem_disabled");
 
         if (Utils.getInstance().mKnockbackPlayers.contains(player.getUniqueId())) {
-            displayName = "§cdeaktivieren";
+            displayName = Utils.getInstance().getString("main_knockbackItem_enabled");
         }
-        Utils.getInstance().addLoreItemStack(inv, 10, Material.FEATHER, 0, "§7Rückstoß " + displayName, "§7", "§7§oEigene Nahkampfangriffe stoßen", "§7§odeine Gegner zurück");
+        Utils.getInstance().addLoreItemStack(inv, 10, Material.FEATHER, 0, displayName, "§7", Utils.getInstance().getString("main_knockbackItem_lore"));
     }
 
     private void fillGuiWithGlass(Inventory inv) {

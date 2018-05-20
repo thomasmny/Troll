@@ -16,8 +16,6 @@ import java.util.UUID;
  * @author einTosti
  */
 public class Utils {
-    public String mPrefix = "§5Troll> ";
-
     public Boolean mInteractions = true;
     public Boolean mBlockDamage = true;
     public Boolean mPlaceBlocks = true;
@@ -30,11 +28,21 @@ public class Utils {
     public ArrayList<UUID> mKnockbackPlayers = new ArrayList<>();
 
     private static Utils instance;
+
     public static synchronized Utils getInstance() {
         if (instance == null) {
             instance = new Utils();
         }
         return instance;
+    }
+
+    public String getString(String string) {
+        try {
+            return Messages.getInstance().mMessageData.get(string).replace("&", "§").replace("%prefix%", Messages.getInstance().mMessageData.get("prefix"));
+        } catch (NullPointerException e) {
+            Messages.getInstance().createMessageFile();
+            return getString(string);
+        }
     }
 
     public boolean isAllowed(Player player) {

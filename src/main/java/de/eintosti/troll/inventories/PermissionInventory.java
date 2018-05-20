@@ -25,7 +25,7 @@ public class PermissionInventory {
     }
 
     private Inventory createInventory(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 27, "§5Rechtesystem");
+        Inventory inv = Bukkit.createInventory(null, 27, Utils.getInstance().getString("permissions_guiName"));
         fillGuiWithGlass(inv, player);
         return inv;
     }
@@ -89,9 +89,9 @@ public class PermissionInventory {
         }
 
         if (numOfPages > 1 && mInvIndex.get(player.getUniqueId()) > 0)
-            Utils.getInstance().addSkull(inv, 9, "§5« §7Vorherige Seite", "MHF_ArrowLeft");
+            Utils.getInstance().addSkull(inv, 9, Utils.getInstance().getString("permissions_arrowLeft"), "MHF_ArrowLeft");
         if (numOfPages > 1 && mInvIndex.get(player.getUniqueId()) < (numOfPages - 1))
-            Utils.getInstance().addSkull(inv, 17, "§7Nächste Seite §5»", "MHF_ArrowRight");
+            Utils.getInstance().addSkull(inv, 17, Utils.getInstance().getString("permissions_arrowRight"), "MHF_ArrowRight");
 
         Utils.getInstance().addGlassPane(inv, 18);
         Utils.getInstance().addGlassPane(inv, 26);
