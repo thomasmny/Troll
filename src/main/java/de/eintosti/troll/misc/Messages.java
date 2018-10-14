@@ -68,7 +68,7 @@ public class Messages {
         setMessage(sb, config, "permissions_remove_all", "%prefix% §7%player% now has §cno permission §7for the §dTroll Menu§7.");
         addLine(sb, "");
         setMessage(sb, config, "received_trollItem", "%prefix% §7You have received the §dTroll Menu §7item.");
-        setMessage(sb, config, "received_effectItem", "%prefix% §7You have received the §dEffect §7item.");
+        setMessage(sb, config, "received_effectItem", "%prefix% §7You have received the §dEffect-Menu §7item.");
         setMessage(sb, config, "received_judgementDay", "%prefix% §7You have received the §dJudgement-Day §7item.");
         setMessage(sb, config, "received_thorHammer", "%prefix% §7You have received §dThors Hammer§7.");
         setMessage(sb, config, "received_tntRain", "%prefix% §7You have received the §dTNT-Rain §7item.");
@@ -93,7 +93,7 @@ public class Messages {
         setMessage(sb, config, "main_killPlayers", "§dKill all players");
         setMessage(sb, config, "main_killPlayers_lore", "§7§oLets all players die");
         addLine(sb, "");
-        setMessage(sb, config, "main_effectItem", "§dReceive Effect Item");
+        setMessage(sb, config, "main_effectItem", "§dReceive Effect-Menu Item");
         setMessage(sb, config, "main_effectItem_lore", "§7§oGives all players potion effects");
         addLine(sb, "");
         setMessage(sb, config, "main_playerTeleport", "§dTeleport players");
@@ -155,7 +155,7 @@ public class Messages {
         setMessage(sb, config, "gamemode_arrowRight", "§7Next Page §5»");
         addLine(sb, "");
         addLine(sb, "");
-        setMessage(sb, config, "effect_guiName", "§5Effekt Menu");
+        setMessage(sb, config, "effect_guiName", "§5Effect Menu");
         addLine(sb, "");
         setMessage(sb, config, "effect_itemName", "§7Gives all players §d%effect%");
         addLine(sb, "");

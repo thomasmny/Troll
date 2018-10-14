@@ -75,16 +75,16 @@ public class TrollInventory {
         inventoryManager.addItemStack(inv, 10, Material.FEATHER, 0, displayName, "§7", plugin.getString("main_knockbackItem_lore"));
     }
 
-    private void fillWithGlass(Inventory inv) {
+    private void fillWithGlass(Inventory inventory) {
         for (int i = 0; i <= 2; i++)
-            inventoryManager.addGlassPane(inv, i);
+            inventoryManager.addGlassPane(inventory, i);
         for (int i = 6; i <= 8; i++)
-            inventoryManager.addGlassPane(inv, i);
+            inventoryManager.addGlassPane(inventory, i);
         for (int i = 12; i <= 14; i++)
-            inventoryManager.addGlassPane(inv, i);
+            inventoryManager.addGlassPane(inventory, i);
         for (int i = 18; i <= 21; i++)
-            inventoryManager.addGlassPane(inv, i);
+            inventoryManager.addGlassPane(inventory, i);
         for (int i = 23; i <= 26; i++)
-            inventoryManager.addGlassPane(inv, i);
+            inventoryManager.addGlassPane(inventory, i);
     }
 }

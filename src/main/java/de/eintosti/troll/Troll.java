@@ -36,7 +36,7 @@ public class Troll extends JavaPlugin {
         getConfigValues();
         messages.createMessageFile();
 
-        Bukkit.getConsoleSender().sendMessage("Troll » Plugin §cdisabled§r!");
+        Bukkit.getConsoleSender().sendMessage("Troll » Plugin §aenabled§r!");
     }
 
     @Override
@@ -48,14 +48,15 @@ public class Troll extends JavaPlugin {
     }
 
     private void initClasses() {
+
+        this.inventoryManager = new InventoryManager();
+        this.trollManager = new TrollManager(this);
+
         this.effectInventory = new EffectInventory(this);
         this.gamemodeInventory = new GamemodeInventory(this);
         this.permissionInventory = new PermissionInventory(this);
         this.settingsInventory = new SettingsInventory(this);
         this.trollInventory = new TrollInventory(this);
-
-        this.inventoryManager = new InventoryManager();
-        this.trollManager = new TrollManager(this);
 
         this.messages = new Messages(this);
     }
@@ -99,12 +100,12 @@ public class Troll extends JavaPlugin {
                 trollManager.addTrollPlayer(string);
             }
         }
-        trollManager.setInteractions(getConfig().getBoolean("settings.interactions"));
-        trollManager.setBlockDamage(getConfig().getBoolean("settings.blockDamage"));
-        trollManager.setPlaceBlocks(getConfig().getBoolean("settings.placeBlocks"));
-        trollManager.setFallDamage(getConfig().getBoolean("settings.fallDamage"));
-        trollManager.setHunger(getConfig().getBoolean("settings.hunger"));
-        trollManager.setChat(getConfig().getBoolean("settings.chat"));
+        trollManager.setInteractions(getConfig().isBoolean("settings.interactions") ? getConfig().getBoolean("settings.interactions") : true);
+        trollManager.setBlockDamage(getConfig().isBoolean("settings.blockDamage") ? getConfig().getBoolean("settings.blockDamage") : true);
+        trollManager.setPlaceBlocks(getConfig().isBoolean("settings.placeBlocks")? getConfig().getBoolean("settings.placeBlocks") : true);
+        trollManager.setFallDamage(getConfig().isBoolean("settings.fallDamage") ? getConfig().getBoolean("settings.fallDamage") : true);
+        trollManager.setHunger(getConfig().isBoolean("settings.hunger") ? getConfig().getBoolean("settings.hunger") : true);
+        trollManager.setChat(getConfig().isBoolean("settings.chat") ? getConfig().getBoolean("settings.chat") : true);
     }
 
     public String getString(String string) {
