@@ -1,9 +1,11 @@
 package de.eintosti.troll;
 
-import de.eintosti.troll.commands.TrollCommand;
-import de.eintosti.troll.listeners.*;
+import de.eintosti.troll.command.TrollCommand;
+import de.eintosti.troll.inventory.*;
+import de.eintosti.troll.listener.*;
+import de.eintosti.troll.manager.InventoryManager;
+import de.eintosti.troll.manager.TrollManager;
 import de.eintosti.troll.misc.Messages;
-import de.eintosti.troll.misc.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -13,20 +15,28 @@ import java.util.List;
  * @author einTosti
  */
 public class Troll extends JavaPlugin {
-    public static Troll plugin = null;
+    private EffectInventory effectInventory;
+    private GamemodeInventory gamemodeInventory;
+    private PermissionInventory permissionInventory;
+    private SettingsInventory settingsInventory;
+    private TrollInventory trollInventory;
+
+    private InventoryManager inventoryManager;
+    private TrollManager trollManager;
+
+    private Messages messages;
 
     @Override
     public void onEnable() {
-        setInstance();
-
+        initClasses();
+        registerCommands();
         registerListeners();
-        registerExecutors();
 
         loadConfiguration();
         getConfigValues();
-        Messages.getInstance().createMessageFile();
+        messages.createMessageFile();
 
-        getLogger().info("Plugin enabled");
+        Bukkit.getConsoleSender().sendMessage("Troll » Plugin §cdisabled§r!");
     }
 
     @Override
@@ -34,32 +44,36 @@ public class Troll extends JavaPlugin {
         setConfigValues();
         saveConfig();
 
-        plugin = null;
-        getLogger().info("Plugin enabled");
+        Bukkit.getConsoleSender().sendMessage("Troll » Plugin §cdisabled§r!");
+    }
+
+    private void initClasses() {
+        this.effectInventory = new EffectInventory(this);
+        this.gamemodeInventory = new GamemodeInventory(this);
+        this.permissionInventory = new PermissionInventory(this);
+        this.settingsInventory = new SettingsInventory(this);
+        this.trollInventory = new TrollInventory(this);
+
+        this.inventoryManager = new InventoryManager();
+        this.trollManager = new TrollManager(this);
+
+        this.messages = new Messages(this);
+    }
+
+    private void registerCommands() {
+        new TrollCommand(this);
     }
 
     private void registerListeners() {
-        Bukkit.getPluginManager().registerEvents(new BlockBreak(), this);
-        Bukkit.getPluginManager().registerEvents(new BlockPlace(), this);
-        Bukkit.getPluginManager().registerEvents(new EntityDamage(), this);
-        Bukkit.getPluginManager().registerEvents(new EntityExplode(), this);
-        Bukkit.getPluginManager().registerEvents(new FoodLevelChange(), this);
-        Bukkit.getPluginManager().registerEvents(new InventoryClick(), this);
-        Bukkit.getPluginManager().registerEvents(new ItemPickup(), this);
-        Bukkit.getPluginManager().registerEvents(new PlayerChat(), this);
-        Bukkit.getPluginManager().registerEvents(new PlayerInteract(), this);
-    }
-
-    private void registerExecutors() {
-        Bukkit.getPluginCommand("troll").setExecutor(new TrollCommand());
-    }
-
-    private void setInstance() {
-        if (plugin == null) {
-            plugin = this;
-        } else {
-            getLogger().warning("Das Plugin ist zweimal geladen worden; Ein Fehler ist aufgetreten!");
-        }
+        new BlockBreak(this);
+        new BlockPlace(this);
+        new EntityDamage(this);
+        new EntityExplode(this);
+        new FoodLevelChange(this);
+        new InventoryClick(this);
+        new ItemPickup(this);
+        new PlayerChat(this);
+        new PlayerInteract(this);
     }
 
     private void loadConfiguration() {
@@ -68,62 +82,65 @@ public class Troll extends JavaPlugin {
     }
 
     private void setConfigValues() {
-        getConfig().set("trollPlayers", Utils.getInstance().mTrollEnabledPlayers);
-
-        getConfig().set("settings.interactions", Utils.getInstance().mInteractions);
-        getConfig().set("settings.blockDamage", Utils.getInstance().mBlockDamage);
-        getConfig().set("settings.placeBlocks", Utils.getInstance().mPlaceBlocks);
-        getConfig().set("settings.fallDamage", Utils.getInstance().mFallDamage);
-        getConfig().set("settings.hunger", Utils.getInstance().mHunger);
-        getConfig().set("settings.chat", Utils.getInstance().mChat);
+        getConfig().set("trollPlayers", trollManager.getTrollPlayers());
+        getConfig().set("settings.interactions", trollManager.getInteractions());
+        getConfig().set("settings.blockDamage", trollManager.getBlockDamage());
+        getConfig().set("settings.placeBlocks", trollManager.getPlaceBlocks());
+        getConfig().set("settings.fallDamage", trollManager.getFallDamage());
+        getConfig().set("settings.hunger", trollManager.getHunger());
+        getConfig().set("settings.chat", trollManager.getChat());
     }
 
     private void getConfigValues() {
-        //Troll players
         if (getConfig().getList("trollPlayers") != null) {
             List<String> list = getConfig().getStringList("trollPlayers");
-            Utils.getInstance().mTrollEnabledPlayers.clear();
-
+            trollManager.clearTrollPlayers();
             for (String string : list) {
-                Utils.getInstance().mTrollEnabledPlayers.add(string);
+                trollManager.addTrollPlayer(string);
             }
         }
+        trollManager.setInteractions(getConfig().getBoolean("settings.interactions"));
+        trollManager.setBlockDamage(getConfig().getBoolean("settings.blockDamage"));
+        trollManager.setPlaceBlocks(getConfig().getBoolean("settings.placeBlocks"));
+        trollManager.setFallDamage(getConfig().getBoolean("settings.fallDamage"));
+        trollManager.setHunger(getConfig().getBoolean("settings.hunger"));
+        trollManager.setChat(getConfig().getBoolean("settings.chat"));
+    }
 
-        //Interactions
-        if (getConfig().get("settings.interactions") != null) {
-            Utils.getInstance().mInteractions = getConfig().getBoolean("settings.interactions");
-        } else {
-            Utils.getInstance().mInteractions = true;
+    public String getString(String string) {
+        try {
+            return messages.messageData.get(string).replace("&", "§").replace("%prefix%", messages.messageData.get("prefix"));
+        } catch (NullPointerException e) {
+            messages.createMessageFile();
+            return getString(string);
         }
-        //BlockDamage
-        if (getConfig().get("settings.blockDamage") != null) {
-            Utils.getInstance().mBlockDamage = getConfig().getBoolean("settings.blockDamage");
-        } else {
-            Utils.getInstance().mBlockDamage = true;
-        }
-        //PlaceBlocks
-        if (getConfig().get("settings.placeBlocks") != null) {
-            Utils.getInstance().mPlaceBlocks = getConfig().getBoolean("settings.placeBlocks");
-        } else {
-            Utils.getInstance().mPlaceBlocks = true;
-        }
-        //FallDamage
-        if (getConfig().get("settings.fallDamage") != null) {
-            Utils.getInstance().mFallDamage = getConfig().getBoolean("settings.fallDamage");
-        } else {
-            Utils.getInstance().mFallDamage = true;
-        }
-        //Hunger
-        if (getConfig().get("settings.hunger") != null) {
-            Utils.getInstance().mHunger = getConfig().getBoolean("settings.hunger");
-        } else {
-            Utils.getInstance().mHunger = true;
-        }
-        //Chat
-        if (getConfig().get("settings.chat") != null) {
-            Utils.getInstance().mChat = getConfig().getBoolean("settings.chat");
-        } else {
-            Utils.getInstance().mChat = true;
-        }
+    }
+
+    public EffectInventory getEffectInventory() {
+        return effectInventory;
+    }
+
+    public GamemodeInventory getGamemodeInventory() {
+        return gamemodeInventory;
+    }
+
+    public PermissionInventory getPermissionInventory() {
+        return permissionInventory;
+    }
+
+    public SettingsInventory getSettingsInventory() {
+        return settingsInventory;
+    }
+
+    public TrollInventory getTrollInventory() {
+        return trollInventory;
+    }
+
+    public InventoryManager getInventoryManager() {
+        return inventoryManager;
+    }
+
+    public TrollManager getTrollManager() {
+        return trollManager;
     }
 }

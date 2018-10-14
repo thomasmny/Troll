@@ -1,15 +1,13 @@
-package de.eintosti.troll.listeners;
+package de.eintosti.troll.listener;
 
 import de.eintosti.troll.Troll;
-import de.eintosti.troll.inventories.EffectInventory;
-import de.eintosti.troll.inventories.TrollInventory;
+import de.eintosti.troll.inventory.EffectInventory;
+import de.eintosti.troll.inventory.TrollInventory;
+import de.eintosti.troll.manager.TrollManager;
 import de.eintosti.troll.misc.ActionBar;
-import de.eintosti.troll.misc.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
@@ -17,12 +15,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitTask;
 
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
 
@@ -30,6 +25,14 @@ import java.util.Set;
  * @author einTosti
  */
 public class PlayerInteract implements Listener {
+    private Troll plugin;
+    private TrollManager trollManager;
+
+    public PlayerInteract(Troll plugin) {
+        this.plugin = plugin;
+        this.trollManager = plugin.getTrollManager();
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
 
     @EventHandler
     public void onPlayerInteractFish(PlayerInteractEvent event) {
@@ -37,21 +40,18 @@ public class PlayerInteract implements Listener {
         Action action = event.getAction();
         ItemStack itemStack = event.getItem();
 
-        if ((action == Action.PHYSICAL) || (itemStack == null) || (itemStack.getType() == Material.AIR)) {
-            return;
-        }
-
+        if ((action == Action.PHYSICAL) || (itemStack == null) || (itemStack.getType() == Material.AIR)) return;
         if (itemStack.getType() == Material.RAW_FISH) {
             if (itemStack.hasItemMeta()) {
                 ItemMeta itemMeta = itemStack.getItemMeta();
 
-                if (itemMeta.getDisplayName() != null && itemMeta.getDisplayName().equals(Utils.getInstance().getString("troll_item"))) {
-                    if (!Utils.getInstance().isAllowed(player)) {
-                        player.sendMessage(Utils.getInstance().getString("no_permissions"));
+                if (itemMeta.getDisplayName() != null && itemMeta.getDisplayName().equals(plugin.getString("troll_item"))) {
+                    if (!trollManager.isAllowed(player)) {
+                        player.sendMessage(plugin.getString("no_permissions"));
                         return;
                     }
                     event.setCancelled(true);
-                    TrollInventory.getInstance().openInventory(player);
+                    plugin.getTrollInventory().openInventory(player);
                 }
             }
         }
@@ -63,22 +63,18 @@ public class PlayerInteract implements Listener {
         Action action = event.getAction();
         ItemStack itemStack = event.getItem();
 
-        if ((action == Action.PHYSICAL) || (itemStack == null) || (itemStack.getType() == Material.AIR)) {
-            return;
-        }
-
+        if ((action == Action.PHYSICAL) || (itemStack == null) || (itemStack.getType() == Material.AIR)) return;
         if (itemStack.getType() == Material.BLAZE_POWDER) {
             if (itemStack.hasItemMeta()) {
                 ItemMeta itemMeta = itemStack.getItemMeta();
 
-                if (itemMeta.getDisplayName() != null && itemMeta.getDisplayName().equals(Utils.getInstance().getString("effect_item"))) {
-                    if (!Utils.getInstance().isAllowed(player)) {
-                        player.sendMessage(Utils.getInstance().getString("no_permissions"));
+                if (itemMeta.getDisplayName() != null && itemMeta.getDisplayName().equals(plugin.getString("effect_item"))) {
+                    if (!trollManager.isAllowed(player)) {
+                        player.sendMessage(plugin.getString("no_permissions"));
                         return;
                     }
-
                     event.setCancelled(true);
-                    EffectInventory.getInstance().openInventory(player);
+                    plugin.getEffectInventory().openInventory(player);
                 }
             }
         }
@@ -86,17 +82,15 @@ public class PlayerInteract implements Listener {
 
     @EventHandler
     public void onPlayerInteractAxe(PlayerInteractEvent event) {
-        if (!(isDataValid(event))) {
-            return;
-        }
+        if (!(isDataValid(event))) return;
 
         Player player = event.getPlayer();
         ItemStack itemStack = event.getItem();
         ItemMeta itemMeta = itemStack.getItemMeta();
 
-        if (itemMeta.getDisplayName().equals(Utils.getInstance().getString("thorHammer_item"))) {
-            if (!Utils.getInstance().isAllowed(player)) {
-                player.sendMessage(Utils.getInstance().getString("no_permissions"));
+        if (itemMeta.getDisplayName().equals(plugin.getString("thorHammer_item"))) {
+            if (!trollManager.isAllowed(player)) {
+                player.sendMessage(plugin.getString("no_permissions"));
                 return;
             }
             player.getWorld().strikeLightning(player.getTargetBlock((Set<Material>) null, 25).getLocation());
@@ -105,23 +99,21 @@ public class PlayerInteract implements Listener {
 
     @EventHandler
     public void onPlayerInteractFireball(PlayerInteractEvent event) {
-        if (!(isDataValid(event))) {
-            return;
-        }
+        if (!(isDataValid(event))) return;
+
         ItemStack itemStack = event.getItem();
         ItemMeta itemMeta = itemStack.getItemMeta();
 
-        if (itemMeta.getDisplayName().equals(Utils.getInstance().getString("judgementDay_item"))) {
+        if (itemMeta.getDisplayName().equals(plugin.getString("judgementDay_item"))) {
             Player player = event.getPlayer();
             event.setCancelled(true);
 
-            if (!Utils.getInstance().isAllowed(player)) {
-                player.sendMessage(Utils.getInstance().getString("no_permissions"));
+            if (!trollManager.isAllowed(player)) {
+                player.sendMessage(plugin.getString("no_permissions"));
                 return;
             }
-
-            ActionBar.sendHotBarMessage(player, Utils.getInstance().getString("called_judgementDay"));
-            for (int i = 1; i <= 30; i++) {
+            ActionBar.sendHotBarMessage(player, plugin.getString("called_judgementDay"));
+            for (int i = 0; i <= 30; i++) {
                 delayFireball(player, i * 20);
             }
         }
@@ -129,21 +121,19 @@ public class PlayerInteract implements Listener {
 
     @EventHandler
     public void onPlayerInteractTnt(PlayerInteractEvent event) {
-        if (!isDataValid(event)) {
-            return;
-        }
+        if (!isDataValid(event)) return;
+
         Player player = event.getPlayer();
         ItemStack itemStack = event.getItem();
         ItemMeta itemMeta = itemStack.getItemMeta();
 
-        if (itemMeta.getDisplayName().equals(Utils.getInstance().getString("tntRain_item"))) {
+        if (itemMeta.getDisplayName().equals(plugin.getString("tntRain_item"))) {
             event.setCancelled(true);
-            if (!Utils.getInstance().isAllowed(player)) {
-                player.sendMessage(Utils.getInstance().getString("no_permissions"));
+            if (!trollManager.isAllowed(player)) {
+                player.sendMessage(plugin.getString("no_permissions"));
                 return;
             }
-
-            ActionBar.sendHotBarMessage(player, Utils.getInstance().getString("called_tntRain"));
+            ActionBar.sendHotBarMessage(player, plugin.getString("called_tntRain"));
             for (Location location : getLocations(player)) {
                 location.getWorld().spawnEntity(location, EntityType.PRIMED_TNT);
             }
@@ -151,21 +141,20 @@ public class PlayerInteract implements Listener {
     }
 
     private boolean isDataValid(PlayerInteractEvent event) {
-        ItemStack is = event.getItem();
-        if ((is == null) || (is.getType() == Material.AIR)) {
+        ItemStack itemStack = event.getItem();
+        if ((itemStack == null) || (itemStack.getType() == Material.AIR)) {
             return false;
         }
-
-        ItemMeta meta = is.getItemMeta();
-        if (meta == null || meta.getDisplayName() == null) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta == null || itemMeta.getDisplayName() == null) {
             return false;
         }
         return true;
     }
 
     private void summonFireball(Player player) {
-        int max = 60;
         Random randomNum = new Random();
+        int max = 60;
 
         Location target = player.getLocation().add(0, -2, 0);
         Location from = lookAt(player.getLocation().add(randomNum.nextInt(max) * (randomNum.nextBoolean() ? -1 : 1), randomNum.nextInt(max), randomNum.nextInt(max) * (randomNum.nextBoolean() ? -1 : 1)), target);
@@ -174,9 +163,7 @@ public class PlayerInteract implements Listener {
     }
 
     private void delayFireball(Player player, int delay) {
-        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Troll.plugin, () -> {
-            summonFireball(player);
-        }, delay);
+        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> summonFireball(player), delay);
     }
 
     private Location[] getLocations(Player player) {
@@ -199,29 +186,28 @@ public class PlayerInteract implements Listener {
         return locations;
     }
 
-    private Location lookAt(Location loc, Location lookat) {
-        loc = loc.clone();
-        double dx = lookat.getX() - loc.getX();
-        double dy = lookat.getY() - loc.getY();
-        double dz = lookat.getZ() - loc.getZ();
+    private Location lookAt(Location location, Location lookat) {
+        location = location.clone();
+        double dX = lookat.getX() - location.getX();
+        double dY = lookat.getY() - location.getY();
+        double dZ = lookat.getZ() - location.getZ();
 
-        if (dx != 0) {
-            if (dx < 0) {
-                loc.setYaw((float) (1.5 * Math.PI));
+        if (dX != 0) {
+            if (dX < 0) {
+                location.setYaw((float) (1.5 * Math.PI));
             } else {
-                loc.setYaw((float) (0.5 * Math.PI));
+                location.setYaw((float) (0.5 * Math.PI));
             }
-            loc.setYaw(loc.getYaw() - (float) Math.atan(dz / dx));
-        } else if (dz < 0) {
-            loc.setYaw((float) Math.PI);
+            location.setYaw(location.getYaw() - (float) Math.atan(dZ / dX));
+        } else if (dZ < 0) {
+            location.setYaw((float) Math.PI);
         }
+        double dXZ = Math.sqrt(Math.pow(dX, 2) + Math.pow(dZ, 2));
 
-        double dxz = Math.sqrt(Math.pow(dx, 2) + Math.pow(dz, 2));
+        location.setPitch((float) -Math.atan(dY / dXZ));
+        location.setYaw(-location.getYaw() * 180f / (float) Math.PI);
+        location.setPitch(location.getPitch() * 180f / (float) Math.PI);
 
-        loc.setPitch((float) -Math.atan(dy / dxz));
-        loc.setYaw(-loc.getYaw() * 180f / (float) Math.PI);
-        loc.setPitch(loc.getPitch() * 180f / (float) Math.PI);
-
-        return loc;
+        return location;
     }
 }

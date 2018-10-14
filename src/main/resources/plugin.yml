@@ -1,15 +1,15 @@
 name: Troll
-version: 1.1
+version: 1.0
 main: de.eintosti.troll.Troll
-description: Heute ist Trolling angesagt!
+description: Time to have a blast
 author: einTosti
 
 commands:
     Troll:
-       description: Heute ist Trolling angesagt!
+       description: Time to have a blast
        usage: /<command>
 
 permissions:
     troll.use:
-        description: Nicht jeder darf abgehoben sein...
+        description: Not everybody can have all of the fun...
         default: OP

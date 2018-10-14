@@ -13,19 +13,16 @@ import java.util.HashMap;
  * @author einTosti
  */
 public class Messages {
-    public HashMap<String, String> mMessageData = new HashMap<>();
+    private Troll plugin;
+    public HashMap<String, String> messageData;
 
-    private static Messages instance;
-
-    public static synchronized Messages getInstance() {
-        if (instance == null) {
-            instance = new Messages();
-        }
-        return instance;
+    public Messages(Troll plugin) {
+        this.plugin = plugin;
+        this.messageData = new HashMap<>();
     }
 
     public void createMessageFile() {
-        File file = new File(Troll.plugin.getDataFolder() + File.separator + "messages.yml");
+        File file = new File(plugin.getDataFolder() + File.separator + "messages.yml");
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -183,24 +180,23 @@ public class Messages {
         setMessage(sb, config, "effect_removeEffects", "Remove all effects");
 
         try {
-            FileWriter fw = new FileWriter(file, false);
-            fw.write(sb.toString());
-            fw.close();
+            FileWriter fileWriter = new FileWriter(file, false);
+            fileWriter.write(sb.toString());
+            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         for (String message : config.getConfigurationSection("").getKeys(false)) {
-            mMessageData.put(message, config.getString(message));
+            this.messageData.put(message, config.getString(message));
         }
     }
 
-    private void addLine(StringBuilder sb, String value) {
-        sb.append(value).append("\n");
+    private void addLine(StringBuilder stringBuilder, String value) {
+        stringBuilder.append(value).append("\n");
     }
 
-    private void setMessage(StringBuilder sb, FileConfiguration config, String key, String defaultValue) {
+    private void setMessage(StringBuilder stringBuilder, FileConfiguration config, String key, String defaultValue) {
         String value = config.getString(key, defaultValue);
-        sb.append(key).append(": '").append(value).append("'").append("\n");
+        stringBuilder.append(key).append(": '").append(value).append("'").append("\n");
     }
 }
