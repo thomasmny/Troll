@@ -2,8 +2,8 @@ package de.eintosti.troll.inventory;
 
 import de.eintosti.troll.Troll;
 import de.eintosti.troll.manager.InventoryManager;
+import de.eintosti.troll.util.external.XMaterial;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -23,32 +23,32 @@ public class EffectInventory {
         Inventory inventory = Bukkit.createInventory(null, 27, plugin.getString("effect_guiName"));
         fillWithGlass(inventory);
 
-        addItemStack(inventory, 0, Material.EYE_OF_ENDER, 0, plugin.getString("effect_blindness"));
-        addItemStack(inventory, 1, Material.COMPASS, 0, plugin.getString("effect_nausea"));
-        addItemStack(inventory, 2, Material.DIAMOND_CHESTPLATE, 0, plugin.getString("effect_resistance"));
-        addItemStack(inventory, 3, Material.DIAMOND_PICKAXE, 0, plugin.getString("effect_haste"));
-        addItemStack(inventory, 4, Material.LAVA_BUCKET, 0, plugin.getString("effect_fireResistance"));
-        addItemStack(inventory, 5, Material.ROTTEN_FLESH, 0, plugin.getString("effect_hunger"));
-        addItemStack(inventory, 6, Material.DIAMOND_SWORD, 0, plugin.getString("effect_strength"));
-        addItemStack(inventory, 7, Material.GLASS, 0, plugin.getString("effect_invisibility"));
-        addItemStack(inventory, 8, Material.RABBIT_FOOT, 0, plugin.getString("effect_jumpBoost"));
-        addItemStack(inventory, 9, Material.GOLDEN_CARROT, 0, plugin.getString("effect_nightVision"));
-        addItemStack(inventory, 10, Material.FERMENTED_SPIDER_EYE, 0, plugin.getString("effect_poison"));
-        addItemStack(inventory, 11, Material.GOLDEN_APPLE, 0, plugin.getString("effect_regeneration"));
-        addItemStack(inventory, 12, Material.SOUL_SAND, 0, plugin.getString("effect_slowness"));
-        addItemStack(inventory, 13, Material.WOOD_PICKAXE, 0, plugin.getString("effect_miningFatigue"));
-        addItemStack(inventory, 14, Material.SUGAR, 0, plugin.getString("effect_speed"));
-        addItemStack(inventory, 15, Material.WATER_BUCKET, 0, plugin.getString("effect_waterBreathing"));
-        addItemStack(inventory, 16, Material.WOOD_SWORD, 0, plugin.getString("effect_weakness"));
+        addItemStack(inventory, 0, XMaterial.ENDER_EYE, plugin.getString("effect_blindness"));
+        addItemStack(inventory, 1, XMaterial.COMPASS, plugin.getString("effect_nausea"));
+        addItemStack(inventory, 2, XMaterial.DIAMOND_CHESTPLATE, plugin.getString("effect_resistance"));
+        addItemStack(inventory, 3, XMaterial.DIAMOND_PICKAXE, plugin.getString("effect_haste"));
+        addItemStack(inventory, 4, XMaterial.LAVA_BUCKET, plugin.getString("effect_fireResistance"));
+        addItemStack(inventory, 5, XMaterial.ROTTEN_FLESH, plugin.getString("effect_hunger"));
+        addItemStack(inventory, 6, XMaterial.DIAMOND_SWORD, plugin.getString("effect_strength"));
+        addItemStack(inventory, 7, XMaterial.GLASS, plugin.getString("effect_invisibility"));
+        addItemStack(inventory, 8, XMaterial.RABBIT_FOOT, plugin.getString("effect_jumpBoost"));
+        addItemStack(inventory, 9, XMaterial.GOLDEN_CARROT, plugin.getString("effect_nightVision"));
+        addItemStack(inventory, 10, XMaterial.FERMENTED_SPIDER_EYE, plugin.getString("effect_poison"));
+        addItemStack(inventory, 11, XMaterial.GOLDEN_APPLE, plugin.getString("effect_regeneration"));
+        addItemStack(inventory, 12, XMaterial.SOUL_SAND, plugin.getString("effect_slowness"));
+        addItemStack(inventory, 13, XMaterial.WOODEN_PICKAXE, plugin.getString("effect_miningFatigue"));
+        addItemStack(inventory, 14, XMaterial.SUGAR, plugin.getString("effect_speed"));
+        addItemStack(inventory, 15, XMaterial.WATER_BUCKET, plugin.getString("effect_waterBreathing"));
+        addItemStack(inventory, 16, XMaterial.WOODEN_SWORD, plugin.getString("effect_weakness"));
 
-        inventoryManager.addItemStack(inventory, 20, Material.FLINT_AND_STEEL, 0, "§d" + plugin.getString("effect_burn"));
-        inventoryManager.addItemStack(inventory, 24, Material.MILK_BUCKET, 0, "§d" + plugin.getString("effect_removeEffects"));
+        inventoryManager.addItemStack(inventory, 20, XMaterial.FLINT_AND_STEEL, "§d" + plugin.getString("effect_burn"));
+        inventoryManager.addItemStack(inventory, 24, XMaterial.MILK_BUCKET, "§d" + plugin.getString("effect_removeEffects"));
 
         return inventory;
     }
 
-    private void addItemStack(Inventory inventory, int position, Material material, int id, String effect) {
-        inventoryManager.addItemStack(inventory, position, material, id, plugin.getString("effect_itemName").replace("%effect%", effect));
+    private void addItemStack(Inventory inventory, int position, XMaterial material, String effect) {
+        inventoryManager.addItemStack(inventory, position, material, plugin.getString("effect_itemName").replace("%effect%", effect));
     }
 
     public void openInventory(Player player) {

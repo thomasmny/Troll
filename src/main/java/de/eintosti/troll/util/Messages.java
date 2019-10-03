@@ -1,4 +1,4 @@
-package de.eintosti.troll.misc;
+package de.eintosti.troll.util;
 
 import de.eintosti.troll.Troll;
 import org.bukkit.configuration.file.FileConfiguration;

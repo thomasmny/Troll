@@ -1,10 +1,9 @@
 package de.eintosti.troll.listener;
 
 import de.eintosti.troll.Troll;
-import de.eintosti.troll.inventory.EffectInventory;
-import de.eintosti.troll.inventory.TrollInventory;
 import de.eintosti.troll.manager.TrollManager;
-import de.eintosti.troll.misc.ActionBar;
+import de.eintosti.troll.util.external.ActionBar;
+import de.eintosti.troll.util.external.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -19,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Random;
-import java.util.Set;
 
 /**
  * @author einTosti
@@ -41,11 +39,11 @@ public class PlayerInteract implements Listener {
         ItemStack itemStack = event.getItem();
 
         if ((action == Action.PHYSICAL) || (itemStack == null) || (itemStack.getType() == Material.AIR)) return;
-        if (itemStack.getType() == Material.RAW_FISH) {
+        if (itemStack.getType() == XMaterial.PUFFERFISH.parseMaterial()) {
             if (itemStack.hasItemMeta()) {
                 ItemMeta itemMeta = itemStack.getItemMeta();
-
-                if (itemMeta.getDisplayName() != null && itemMeta.getDisplayName().equals(plugin.getString("troll_item"))) {
+                if (itemMeta == null) return;
+                if (itemMeta.hasDisplayName() && itemMeta.getDisplayName().equals(plugin.getString("troll_item"))) {
                     if (!trollManager.isAllowed(player)) {
                         player.sendMessage(plugin.getString("no_permissions"));
                         return;
@@ -64,11 +62,11 @@ public class PlayerInteract implements Listener {
         ItemStack itemStack = event.getItem();
 
         if ((action == Action.PHYSICAL) || (itemStack == null) || (itemStack.getType() == Material.AIR)) return;
-        if (itemStack.getType() == Material.BLAZE_POWDER) {
+        if (itemStack.getType() == XMaterial.BLAZE_POWDER.parseMaterial()) {
             if (itemStack.hasItemMeta()) {
                 ItemMeta itemMeta = itemStack.getItemMeta();
 
-                if (itemMeta.getDisplayName() != null && itemMeta.getDisplayName().equals(plugin.getString("effect_item"))) {
+                if (itemMeta.hasDisplayName() && itemMeta.getDisplayName().equals(plugin.getString("effect_item"))) {
                     if (!trollManager.isAllowed(player)) {
                         player.sendMessage(plugin.getString("no_permissions"));
                         return;
@@ -93,7 +91,7 @@ public class PlayerInteract implements Listener {
                 player.sendMessage(plugin.getString("no_permissions"));
                 return;
             }
-            player.getWorld().strikeLightning(player.getTargetBlock((Set<Material>) null, 25).getLocation());
+            player.getWorld().strikeLightning(player.getTargetBlock(null, 25).getLocation());
         }
     }
 
@@ -142,11 +140,11 @@ public class PlayerInteract implements Listener {
 
     private boolean isDataValid(PlayerInteractEvent event) {
         ItemStack itemStack = event.getItem();
-        if ((itemStack == null) || (itemStack.getType() == Material.AIR)) {
+        if ((itemStack == null) || (itemStack.getType() == XMaterial.AIR.parseMaterial())) {
             return false;
         }
         ItemMeta itemMeta = itemStack.getItemMeta();
-        if (itemMeta == null || itemMeta.getDisplayName() == null) {
+        if (itemMeta == null || !itemMeta.hasDisplayName()) {
             return false;
         }
         return true;

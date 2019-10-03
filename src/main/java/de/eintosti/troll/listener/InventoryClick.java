@@ -3,6 +3,7 @@ package de.eintosti.troll.listener;
 import de.eintosti.troll.Troll;
 import de.eintosti.troll.manager.InventoryManager;
 import de.eintosti.troll.manager.TrollManager;
+import de.eintosti.troll.util.external.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -36,15 +37,13 @@ public class InventoryClick implements Listener {
         Player player = (Player) event.getWhoClicked();
         ItemStack itemStack = event.getCurrentItem();
 
-        if (!event.getInventory().getName().equals(plugin.getString("main_guiName"))) return;
+        if (!event.getView().getTitle().equals(plugin.getString("main_guiName"))) return;
         if (!trollManager.isAllowed(player)) return;
         if ((itemStack == null) || (itemStack.getType() == Material.AIR) || (!itemStack.hasItemMeta())) return;
 
         event.setCancelled(true);
-        Material itemType = itemStack.getType();
-
-        switch (itemType) {
-            case DIAMOND_SWORD:
+        switch (event.getSlot()) {
+            case 3:
                 if (trollManager.isAllowed(player)) {
                     Bukkit.getOnlinePlayers().forEach(pl -> {
                         if (!(pl.equals(player))) {
@@ -55,20 +54,20 @@ public class InventoryClick implements Listener {
                     player.sendMessage(plugin.getString("players_killed"));
                 }
                 break;
-            case BLAZE_POWDER:
+            case 4:
                 if (trollManager.isAllowed(player)) {
-                    player.getInventory().addItem(inventoryManager.getItemStack(Material.BLAZE_POWDER, 0, plugin.getString("effect_item")));
+                    player.getInventory().addItem(inventoryManager.getItemStack(XMaterial.BLAZE_POWDER, plugin.getString("effect_item")));
                     player.closeInventory();
                     player.sendMessage(plugin.getString("received_effectItem"));
                 }
                 break;
-            case ENDER_PEARL:
+            case 5:
                 if (trollManager.isAllowed(player)) {
                     Bukkit.getOnlinePlayers().forEach(pl -> pl.teleport(player));
                     player.sendMessage(plugin.getString("players_teleported"));
                 }
                 break;
-            case GRASS:
+            case 9:
                 if (trollManager.isAllowed(player)) {
                     GameMode gameMode = GameMode.SURVIVAL;
                     String string = plugin.getString("creative_disabled");
@@ -82,7 +81,7 @@ public class InventoryClick implements Listener {
                     player.sendMessage(string);
                 }
                 break;
-            case FEATHER:
+            case 10:
                 if (trollManager.isAllowed(player)) {
                     if (!trollManager.getKnockbackPlayers().contains(player.getUniqueId())) {
                         trollManager.addKnockbackPlayer(player.getUniqueId());
@@ -94,7 +93,7 @@ public class InventoryClick implements Listener {
                     player.closeInventory();
                 }
                 break;
-            case QUARTZ:
+            case 11:
                 if (trollManager.isAllowed(player)) {
                     boolean enabled = false;
                     if (!trollManager.getVanishedPlayers().contains(player.getUniqueId())) {
@@ -113,28 +112,28 @@ public class InventoryClick implements Listener {
                     }
                 }
                 break;
-            case IRON_AXE:
+            case 15:
                 if (trollManager.isAllowed(player)) {
                     player.closeInventory();
-                    player.getInventory().addItem(inventoryManager.getItemStack(Material.IRON_AXE, 0, plugin.getString("thorHammer_item")));
+                    player.getInventory().addItem(inventoryManager.getItemStack(XMaterial.IRON_AXE, plugin.getString("thorHammer_item")));
                     player.sendMessage(plugin.getString("received_thorHammer"));
                 }
                 break;
-            case TNT:
+            case 16:
                 if (trollManager.isAllowed(player)) {
                     player.closeInventory();
-                    player.getInventory().addItem(inventoryManager.getItemStack(Material.TNT, 0, plugin.getString("tntRain_item")));
+                    player.getInventory().addItem(inventoryManager.getItemStack(XMaterial.TNT, plugin.getString("tntRain_item")));
                     player.sendMessage(plugin.getString("received_tntRain"));
                 }
                 break;
-            case FIREBALL:
+            case 17:
                 if (trollManager.isAllowed(player)) {
                     player.closeInventory();
-                    player.getInventory().addItem(inventoryManager.getItemStack(Material.FIREBALL, 0, plugin.getString("judgementDay_item")));
+                    player.getInventory().addItem(inventoryManager.getItemStack(XMaterial.FIRE_CHARGE, plugin.getString("judgementDay_item")));
                     player.sendMessage(plugin.getString("received_judgementDay"));
                 }
                 break;
-            case NETHER_STAR:
+            case 22:
                 if (trollManager.isAllowed(player)) {
                     plugin.getSettingsInventory().openInventory(player);
                 }
@@ -147,7 +146,7 @@ public class InventoryClick implements Listener {
         Player player = (Player) event.getWhoClicked();
         ItemStack itemStack = event.getCurrentItem();
 
-        if (!event.getInventory().getName().equals(plugin.getString("settings_guiName"))) return;
+        if (!event.getView().getTitle().equals(plugin.getString("settings_guiName"))) return;
         if (!trollManager.isAllowed(player)) return;
         if ((itemStack == null) || (itemStack.getType() == Material.AIR) || (!itemStack.hasItemMeta())) return;
 
@@ -194,18 +193,18 @@ public class InventoryClick implements Listener {
         }
     }
 
-
     @EventHandler
+    @SuppressWarnings("deprecation")
     public void onGamemodeInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         ItemStack itemStack = event.getCurrentItem();
 
-        if (!event.getInventory().getName().equals(plugin.getString("gamemode_guiName"))) return;
+        if (!event.getView().getTitle().equals(plugin.getString("gamemode_guiName"))) return;
         if (!trollManager.isAllowed(player)) return;
         if ((itemStack == null) || (itemStack.getType() == Material.AIR) || (!itemStack.hasItemMeta())) return;
         event.setCancelled(true);
 
-        if (itemStack.getType() == Material.SKULL_ITEM) {
+        if (itemStack.getType() == XMaterial.PLAYER_HEAD.parseMaterial()) {
             SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
             Player skullOwner = Bukkit.getServer().getPlayer(skullMeta.getOwner());
             switch (event.getSlot()) {
@@ -221,6 +220,10 @@ public class InventoryClick implements Listener {
                     break;
             }
             if (event.getSlot() >= 9 && event.getSlot() <= 17) {
+                if (skullOwner == null) {
+                    player.closeInventory();
+                    return;
+                }
                 switch (skullOwner.getGameMode()) {
                     case SURVIVAL:
                         skullOwner.setGameMode(GameMode.CREATIVE);
@@ -238,16 +241,17 @@ public class InventoryClick implements Listener {
     }
 
     @EventHandler
+    @SuppressWarnings("deprecation")
     public void onPermissionInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         ItemStack itemStack = event.getCurrentItem();
 
-        if (!event.getInventory().getName().equals(plugin.getString("permissions_guiName"))) return;
+        if (!event.getView().getTitle().equals(plugin.getString("permissions_guiName"))) return;
         if (!trollManager.isAllowed(player)) return;
         if ((itemStack == null) || (itemStack.getType() == Material.AIR) || (!itemStack.hasItemMeta())) return;
         event.setCancelled(true);
 
-        if (itemStack.getType() == Material.SKULL_ITEM) {
+        if (itemStack.getType() == XMaterial.PLAYER_HEAD.parseMaterial()) {
             SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
             switch (event.getSlot()) {
                 case 9:
@@ -297,7 +301,7 @@ public class InventoryClick implements Listener {
         Player player = (Player) event.getWhoClicked();
         ItemStack itemStack = event.getCurrentItem();
 
-        if (!event.getInventory().getName().equals(plugin.getString("effect_guiName"))) return;
+        if (!event.getView().getTitle().equals(plugin.getString("effect_guiName"))) return;
         if (!trollManager.isAllowed(player)) return;
         if ((itemStack == null) || (itemStack.getType() == Material.AIR) || (!itemStack.hasItemMeta())) return;
         event.setCancelled(true);

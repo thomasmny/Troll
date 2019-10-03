@@ -18,6 +18,7 @@ public class ItemPickup implements Listener {
     }
 
     @EventHandler
+    @SuppressWarnings("deprecation")
     public void onItemPickup(PlayerPickupItemEvent event) {
         if (!trollManager.getInteractions()) {
             event.setCancelled(true);

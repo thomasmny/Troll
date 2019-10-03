@@ -1,4 +1,4 @@
-package de.eintosti.troll.misc;
+package de.eintosti.troll.util.external;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

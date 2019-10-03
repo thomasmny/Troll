@@ -10,7 +10,7 @@ import java.util.UUID;
  * @author einTosti
  */
 public class TrollManager {
-    private Troll plugin;
+    private int knockback;
 
     private Boolean interactions;
     private Boolean blockDamage;
@@ -23,7 +23,8 @@ public class TrollManager {
     private ArrayList<UUID> vanishedPlayers;
     private ArrayList<UUID> knockbackPlayers;
 
-    public TrollManager(Troll plugin) {
+    public TrollManager() {
+        this.knockback = 15;
         this.interactions = true;
         this.blockDamage = true;
         this.placeBlocks = true;
@@ -31,7 +32,6 @@ public class TrollManager {
         this.hunger = true;
         this.chat = true;
 
-        this.plugin = plugin;
         this.trollPlayers = new ArrayList<>();
         this.vanishedPlayers = new ArrayList<>();
         this.knockbackPlayers = new ArrayList<>();
@@ -43,6 +43,14 @@ public class TrollManager {
             allowed = true;
         }
         return allowed;
+    }
+
+    public int getKnockback() {
+        return knockback;
+    }
+
+    public void setKnockback(int knockback) {
+        this.knockback = knockback;
     }
 
     public Boolean getInteractions() {

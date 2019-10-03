@@ -36,7 +36,7 @@ public class EntityDamage implements Listener {
             Entity attacker = entityEvent.getDamager();
             if (attacker instanceof Player) {
                 if (trollManager.getKnockbackPlayers().contains(attacker.getUniqueId())) {
-                    attacked.setVelocity(attacked.getVelocity().add(attacked.getLocation().toVector().subtract(attacker.getLocation().toVector()).normalize().multiply(75)));
+                    attacked.setVelocity(attacked.getVelocity().add(attacked.getLocation().toVector().subtract(attacker.getLocation().toVector()).normalize().multiply(trollManager.getKnockback())));
                 }
             }
         }

@@ -5,7 +5,7 @@ import de.eintosti.troll.inventory.*;
 import de.eintosti.troll.listener.*;
 import de.eintosti.troll.manager.InventoryManager;
 import de.eintosti.troll.manager.TrollManager;
-import de.eintosti.troll.misc.Messages;
+import de.eintosti.troll.util.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -48,9 +48,8 @@ public class Troll extends JavaPlugin {
     }
 
     private void initClasses() {
-
         this.inventoryManager = new InventoryManager();
-        this.trollManager = new TrollManager(this);
+        this.trollManager = new TrollManager();
 
         this.effectInventory = new EffectInventory(this);
         this.gamemodeInventory = new GamemodeInventory(this);
@@ -100,12 +99,13 @@ public class Troll extends JavaPlugin {
                 trollManager.addTrollPlayer(string);
             }
         }
-        trollManager.setInteractions(getConfig().isBoolean("settings.interactions") ? getConfig().getBoolean("settings.interactions") : true);
-        trollManager.setBlockDamage(getConfig().isBoolean("settings.blockDamage") ? getConfig().getBoolean("settings.blockDamage") : true);
-        trollManager.setPlaceBlocks(getConfig().isBoolean("settings.placeBlocks")? getConfig().getBoolean("settings.placeBlocks") : true);
-        trollManager.setFallDamage(getConfig().isBoolean("settings.fallDamage") ? getConfig().getBoolean("settings.fallDamage") : true);
-        trollManager.setHunger(getConfig().isBoolean("settings.hunger") ? getConfig().getBoolean("settings.hunger") : true);
-        trollManager.setChat(getConfig().isBoolean("settings.chat") ? getConfig().getBoolean("settings.chat") : true);
+        trollManager.setKnockback(getConfig().getInt("knockback"));
+        trollManager.setInteractions(!getConfig().isBoolean("settings.interactions") || getConfig().getBoolean("settings.interactions"));
+        trollManager.setBlockDamage(!getConfig().isBoolean("settings.blockDamage") || getConfig().getBoolean("settings.blockDamage"));
+        trollManager.setPlaceBlocks(!getConfig().isBoolean("settings.placeBlocks") || getConfig().getBoolean("settings.placeBlocks"));
+        trollManager.setFallDamage(!getConfig().isBoolean("settings.fallDamage") || getConfig().getBoolean("settings.fallDamage"));
+        trollManager.setHunger(!getConfig().isBoolean("settings.hunger") || getConfig().getBoolean("settings.hunger"));
+        trollManager.setChat(!getConfig().isBoolean("settings.chat") || getConfig().getBoolean("settings.chat"));
     }
 
     public String getString(String string) {

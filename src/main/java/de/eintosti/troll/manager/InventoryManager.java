@@ -1,6 +1,7 @@
 package de.eintosti.troll.manager;
 
-import org.bukkit.Material;
+import de.eintosti.troll.util.external.XMaterial;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -13,43 +14,57 @@ import java.util.Arrays;
  * @author einTosti
  */
 public class InventoryManager {
-    public ItemStack getItemStack(Material material, int id, String displayName, String... lore) {
-        ItemStack itemStack = new ItemStack(material, 1, (byte) id);
-        ItemMeta meta = itemStack.getItemMeta();
+    @SuppressWarnings("deprecation")
+    public ItemStack getItemStack(XMaterial material, String displayName, String... lore) {
+        ItemStack itemStack = material.parseItem(true);
+        ItemMeta itemMeta = itemStack.getItemMeta();
 
-        meta.setDisplayName(displayName);
-        meta.setLore(Arrays.asList(lore));
-        meta.addItemFlags(ItemFlag.values());
+        itemMeta.setDisplayName(displayName);
+        itemMeta.setLore(Arrays.asList(lore));
+        itemMeta.addItemFlags(ItemFlag.values());
 
-        itemStack.setItemMeta(meta);
+        itemStack.setAmount(1);
+        itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
 
-    public ItemStack addItemStack(Inventory inv, int position, Material material, int id, String displayName, String... lore) {
-        ItemStack itemStack = getItemStack(material, id, displayName, lore);
-        inv.setItem(position, itemStack);
+    public ItemStack addItemStack(Inventory inventory, int position, XMaterial material, String displayName, String... lore) {
+        ItemStack itemStack = getItemStack(material, displayName, lore);
+        inventory.setItem(position, itemStack);
         return itemStack;
     }
 
-    public void addGlassPane(Inventory inv, int position) {
-        inv.setItem(position, getItemStack(Material.STAINED_GLASS_PANE, 15, " "));
+    public ItemStack addEnchantedItemStack(Inventory inventory, int position, XMaterial material, String displayName, boolean enchanted, String... lore) {
+        ItemStack itemStack = getItemStack(material, displayName, lore);
+        if (enchanted) {
+            ItemMeta itemMeta = itemStack.getItemMeta();
+            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            itemStack.setItemMeta(itemMeta);
+            itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+        }
+        inventory.setItem(position, itemStack);
+        return itemStack;
+    }
+
+    public void addGlassPane(Inventory inventory, int position) {
+        inventory.setItem(position, getItemStack(XMaterial.BLACK_STAINED_GLASS_PANE, " "));
     }
 
     @SuppressWarnings("deprecation")
     public ItemStack getSkull(String displayName, String skullOwner, String... lore) {
-        ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
-        SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
+        ItemStack itemStack = XMaterial.PLAYER_HEAD.parseItem(true);
+        SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
 
         skullMeta.setOwner(skullOwner);
         skullMeta.setDisplayName(displayName);
         skullMeta.setLore(Arrays.asList(lore));
-        skull.setItemMeta(skullMeta);
 
-        skull.setItemMeta(skullMeta);
-        return skull;
+        itemStack.setAmount(1);
+        itemStack.setItemMeta(skullMeta);
+        return itemStack;
     }
 
-    public void addSkull(Inventory inv, int position, String displayName, String skullOwner, String... lore) {
-        inv.setItem(position, getSkull(displayName, skullOwner, lore));
+    public void addSkull(Inventory inventory, int position, String displayName, String skullOwner, String... lore) {
+        inventory.setItem(position, getSkull(displayName, skullOwner, lore));
     }
 }

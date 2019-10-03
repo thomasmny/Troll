@@ -2,8 +2,8 @@ package de.eintosti.troll.inventory;
 
 import de.eintosti.troll.Troll;
 import de.eintosti.troll.manager.InventoryManager;
+import de.eintosti.troll.util.external.XMaterial;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -64,25 +64,22 @@ public class GamemodeInventory {
         return inventories[invIndex.get(player.getUniqueId())];
     }
 
-    /* Items */
+    @SuppressWarnings("deprecation")
     private void addGamemodeItem(Player player, Inventory inv, int position) {
-        ItemStack itemStack = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
-        SkullMeta meta = (SkullMeta) itemStack.getItemMeta();
+        ItemStack itemStack = new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial(), 1);
+        SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
 
-        meta.setDisplayName("§d" + player.getName());
-        meta.setLore(Arrays.asList(plugin.getString("gamemode_lore").replace("%gamemode%", getPlayerGamemode(player))));
-        meta.setOwner(player.getName());
+        skullMeta.setDisplayName("§d" + player.getName());
+        skullMeta.setLore(Arrays.asList(plugin.getString("gamemode_lore").replace("%gamemode%", getPlayerGamemode(player))));
+        skullMeta.setOwner(player.getName());
 
-        itemStack.setItemMeta(meta);
+        itemStack.setItemMeta(skullMeta);
         inv.setItem(position, itemStack);
     }
 
     private void fillGuiWithGlass(Inventory inv, Player player) {
         int numOfPages = (Bukkit.getOnlinePlayers().size() / 9) + (Bukkit.getOnlinePlayers().size() % 9 == 0 ? 0 : 1);
 
-        for (int i = 0; i <= 8; i++) {
-            inventoryManager.addGlassPane(inv, i);
-        }
         if (numOfPages > 1 && invIndex.get(player.getUniqueId()) > 0) {
             inventoryManager.addSkull(inv, 9, plugin.getString("gamemode_arrowLeft"), "MHF_ArrowLeft");
         } else {
@@ -93,9 +90,11 @@ public class GamemodeInventory {
         } else {
             inventoryManager.addGlassPane(inv, 26);
         }
-        for (int i = 19; i <= 25; i++) {
+
+        for (int i = 0; i <= 8; i++)
             inventoryManager.addGlassPane(inv, i);
-        }
+        for (int i = 19; i <= 25; i++)
+            inventoryManager.addGlassPane(inv, i);
     }
 
     public Integer getInvIntex(Player player) {

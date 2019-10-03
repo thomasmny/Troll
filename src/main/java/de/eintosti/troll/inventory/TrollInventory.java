@@ -3,9 +3,9 @@ package de.eintosti.troll.inventory;
 import de.eintosti.troll.Troll;
 import de.eintosti.troll.manager.InventoryManager;
 import de.eintosti.troll.manager.TrollManager;
+import de.eintosti.troll.util.external.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -27,19 +27,19 @@ public class TrollInventory {
         Inventory inventory = Bukkit.createInventory(null, 27, plugin.getString("main_guiName"));
         fillWithGlass(inventory);
 
-        inventoryManager.addItemStack(inventory, 3, Material.DIAMOND_SWORD, 0, plugin.getString("main_killPlayers"), "§7", plugin.getString("main_killPlayers_lore"));
-        inventoryManager.addItemStack(inventory, 4, Material.BLAZE_POWDER, 0, plugin.getString("main_effectItem"), "§7", plugin.getString("main_effectItem_lore"));
-        inventoryManager.addItemStack(inventory, 5, Material.ENDER_PEARL, 0, plugin.getString("main_playerTeleport"), "§7", plugin.getString("main_playerTeleport_lore"));
+        inventoryManager.addItemStack(inventory, 3, XMaterial.DIAMOND_SWORD, plugin.getString("main_killPlayers"), plugin.getString("main_killPlayers_lore"));
+        inventoryManager.addItemStack(inventory, 4, XMaterial.BLAZE_POWDER, plugin.getString("main_effectItem"), plugin.getString("main_effectItem_lore"));
+        inventoryManager.addItemStack(inventory, 5, XMaterial.ENDER_PEARL, plugin.getString("main_playerTeleport"), plugin.getString("main_playerTeleport_lore"));
 
         addGamemodeItem(player, inventory);
         addKnockbackItem(player, inventory);
         addVanishItem(player, inventory);
 
-        inventoryManager.addItemStack(inventory, 15, Material.IRON_AXE, 0, plugin.getString("main_thorHammer"), "§7", plugin.getString("main_thorHammer_lore"));
-        inventoryManager.addItemStack(inventory, 16, Material.TNT, 0, plugin.getString("main_tntRain"), "§7", plugin.getString("main_tntRain_lore"));
-        inventoryManager.addItemStack(inventory, 17, Material.FIREBALL, 0, plugin.getString("main_judgementDay"), "§7", plugin.getString("main_judgementDay_lore"));
+        inventoryManager.addItemStack(inventory, 15, XMaterial.IRON_AXE, plugin.getString("main_thorHammer"), plugin.getString("main_thorHammer_lore"));
+        inventoryManager.addItemStack(inventory, 16, XMaterial.TNT, plugin.getString("main_tntRain"), plugin.getString("main_tntRain_lore"));
+        inventoryManager.addItemStack(inventory, 17, XMaterial.FIRE_CHARGE, plugin.getString("main_judgementDay"), plugin.getString("main_judgementDay_lore"));
 
-        inventoryManager.addItemStack(inventory, 22, Material.NETHER_STAR, 0, plugin.getString("main_settings"), "§7", plugin.getString("main_settings_lore"));
+        inventoryManager.addItemStack(inventory, 22, XMaterial.NETHER_STAR, plugin.getString("main_settings"), plugin.getString("main_settings_lore"));
 
         return inventory;
     }
@@ -50,29 +50,35 @@ public class TrollInventory {
 
     private void addGamemodeItem(Player player, Inventory inv) {
         String displayName = plugin.getString("main_gamemodeItem_disabled");
+        boolean enchanted = false;
 
         if (player.getGameMode().equals(GameMode.CREATIVE)) {
             displayName = plugin.getString("main_gamemodeItem_enabled");
+            enchanted = true;
         }
-        inventoryManager.addItemStack(inv, 9, Material.GRASS, 0, displayName, "§7", plugin.getString("main_gamemodeItem_lore"));
+        inventoryManager.addEnchantedItemStack(inv, 9, XMaterial.GRASS_BLOCK, displayName, enchanted, plugin.getString("main_gamemodeItem_lore"));
     }
 
     private void addVanishItem(Player player, Inventory inv) {
         String displayName = plugin.getString("main_vanishItem_disabled");
+        boolean enchanted = false;
 
         if (trollManager.getVanishedPlayers().contains(player.getUniqueId())) {
             displayName = plugin.getString("main_vanishItem_enabled");
+            enchanted = true;
         }
-        inventoryManager.addItemStack(inv, 11, Material.QUARTZ, 0, displayName, "§7", plugin.getString("main_vanishItem_lore"));
+        inventoryManager.addEnchantedItemStack(inv, 11, XMaterial.QUARTZ, displayName, enchanted, plugin.getString("main_vanishItem_lore"));
     }
 
     private void addKnockbackItem(Player player, Inventory inv) {
         String displayName = plugin.getString("main_knockbackItem_disabled");
+        boolean enchanted = false;
 
         if (trollManager.getKnockbackPlayers().contains(player.getUniqueId())) {
             displayName = plugin.getString("main_knockbackItem_enabled");
+            enchanted = true;
         }
-        inventoryManager.addItemStack(inv, 10, Material.FEATHER, 0, displayName, "§7", plugin.getString("main_knockbackItem_lore"));
+        inventoryManager.addEnchantedItemStack(inv, 10, XMaterial.FEATHER, displayName, enchanted, plugin.getString("main_knockbackItem_lore"));
     }
 
     private void fillWithGlass(Inventory inventory) {

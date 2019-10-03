@@ -3,8 +3,8 @@ package de.eintosti.troll.inventory;
 import de.eintosti.troll.Troll;
 import de.eintosti.troll.manager.InventoryManager;
 import de.eintosti.troll.manager.TrollManager;
+import de.eintosti.troll.util.external.XMaterial;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -76,13 +76,13 @@ public class PermissionInventory {
 
     private void addSelectedPlayerItem(Player player, Inventory inv, int position) {
         String displayName = "§7✘";
-        int id = 8;
+        XMaterial material = XMaterial.GRAY_DYE;
 
         if (trollManager.getTrollPlayers().contains(player.getName())) {
             displayName = "§a✔";
-            id = 10;
+            material = XMaterial.LIME_DYE;
         }
-        inventoryManager.addItemStack(inv, position, Material.INK_SACK, id, displayName);
+        inventoryManager.addItemStack(inv, position, material, displayName);
     }
 
     private void fillWithGlass(Inventory inv, Player player) {
