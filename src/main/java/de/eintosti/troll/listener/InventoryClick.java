@@ -4,6 +4,7 @@ import de.eintosti.troll.Troll;
 import de.eintosti.troll.manager.InventoryManager;
 import de.eintosti.troll.manager.TrollManager;
 import de.eintosti.troll.util.external.XMaterial;
+import de.eintosti.troll.util.external.XSound;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -53,6 +54,7 @@ public class InventoryClick implements Listener {
                     player.closeInventory();
                     player.sendMessage(plugin.getString("players_killed"));
                 }
+                player.playSound(player.getLocation(), XSound.ENTITY_LIGHTNING_BOLT_IMPACT.parseSound(), 1f, 1f);
                 break;
             case 4:
                 if (trollManager.isAllowed(player)) {
@@ -60,12 +62,14 @@ public class InventoryClick implements Listener {
                     player.closeInventory();
                     player.sendMessage(plugin.getString("received_effectItem"));
                 }
+                player.playSound(player.getLocation(), XSound.ENTITY_ITEM_PICKUP.parseSound(), 1f, 1f);
                 break;
             case 5:
                 if (trollManager.isAllowed(player)) {
                     Bukkit.getOnlinePlayers().forEach(pl -> pl.teleport(player));
                     player.sendMessage(plugin.getString("players_teleported"));
                 }
+                player.playSound(player.getLocation(), XSound.ENTITY_ENDERMAN_TELEPORT.parseSound(), 1f, 1f);
                 break;
             case 9:
                 if (trollManager.isAllowed(player)) {
@@ -80,6 +84,7 @@ public class InventoryClick implements Listener {
                     player.setGameMode(gameMode);
                     player.sendMessage(string);
                 }
+                player.playSound(player.getLocation(), XSound.ENTITY_CHICKEN_EGG.parseSound(), 1f, 1f);
                 break;
             case 10:
                 if (trollManager.isAllowed(player)) {
@@ -92,6 +97,7 @@ public class InventoryClick implements Listener {
                     }
                     player.closeInventory();
                 }
+                player.playSound(player.getLocation(), XSound.ENTITY_CHICKEN_EGG.parseSound(), 1f, 1f);
                 break;
             case 11:
                 if (trollManager.isAllowed(player)) {
@@ -105,12 +111,15 @@ public class InventoryClick implements Listener {
                         player.sendMessage(plugin.getString("vanish_disabled"));
                     }
                     player.closeInventory();
-
                     for (Player pl : Bukkit.getOnlinePlayers()) {
-                        if (enabled) pl.hidePlayer(player);
-                        else pl.showPlayer(player);
+                        if (enabled) {
+                            pl.hidePlayer(player);
+                        } else {
+                            pl.showPlayer(player);
+                        }
                     }
                 }
+                player.playSound(player.getLocation(), XSound.ENTITY_CHICKEN_EGG.parseSound(), 1f, 1f);
                 break;
             case 15:
                 if (trollManager.isAllowed(player)) {
@@ -118,6 +127,7 @@ public class InventoryClick implements Listener {
                     player.getInventory().addItem(inventoryManager.getItemStack(XMaterial.IRON_AXE, plugin.getString("thorHammer_item")));
                     player.sendMessage(plugin.getString("received_thorHammer"));
                 }
+                player.playSound(player.getLocation(), XSound.ENTITY_ITEM_PICKUP.parseSound(), 1f, 1f);
                 break;
             case 16:
                 if (trollManager.isAllowed(player)) {
@@ -125,6 +135,7 @@ public class InventoryClick implements Listener {
                     player.getInventory().addItem(inventoryManager.getItemStack(XMaterial.TNT, plugin.getString("tntRain_item")));
                     player.sendMessage(plugin.getString("received_tntRain"));
                 }
+                player.playSound(player.getLocation(), XSound.ENTITY_ITEM_PICKUP.parseSound(), 1f, 1f);
                 break;
             case 17:
                 if (trollManager.isAllowed(player)) {
@@ -132,11 +143,13 @@ public class InventoryClick implements Listener {
                     player.getInventory().addItem(inventoryManager.getItemStack(XMaterial.FIRE_CHARGE, plugin.getString("judgementDay_item")));
                     player.sendMessage(plugin.getString("received_judgementDay"));
                 }
+                player.playSound(player.getLocation(), XSound.ENTITY_ITEM_PICKUP.parseSound(), 1f, 1f);
                 break;
             case 22:
                 if (trollManager.isAllowed(player)) {
                     plugin.getSettingsInventory().openInventory(player);
                 }
+                player.playSound(player.getLocation(), XSound.BLOCK_CHEST_OPEN.parseSound(), 1f, 1f);
                 break;
         }
     }
@@ -155,32 +168,39 @@ public class InventoryClick implements Listener {
             case 18:
                 trollManager.setInteractions(!trollManager.getInteractions());
                 plugin.getSettingsInventory().openInventory(player);
+                player.playSound(player.getLocation(), XSound.ENTITY_CHICKEN_EGG.parseSound(), 1f, 1f);
                 break;
             case 19:
                 trollManager.setBlockDamage(!trollManager.getBlockDamage());
                 plugin.getSettingsInventory().openInventory(player);
+                player.playSound(player.getLocation(), XSound.ENTITY_CHICKEN_EGG.parseSound(), 1f, 1f);
                 break;
             case 20:
                 trollManager.setPlaceBlocks(!trollManager.getPlaceBlocks());
                 plugin.getSettingsInventory().openInventory(player);
+                player.playSound(player.getLocation(), XSound.ENTITY_CHICKEN_EGG.parseSound(), 1f, 1f);
                 break;
             case 21:
                 trollManager.setFallDamage(!trollManager.getFallDamage());
                 plugin.getSettingsInventory().openInventory(player);
+                player.playSound(player.getLocation(), XSound.ENTITY_CHICKEN_EGG.parseSound(), 1f, 1f);
                 break;
             case 22:
                 trollManager.setHunger(!trollManager.getHunger());
                 plugin.getSettingsInventory().openInventory(player);
+                player.playSound(player.getLocation(), XSound.ENTITY_CHICKEN_EGG.parseSound(), 1f, 1f);
                 break;
             case 23:
                 trollManager.setChat(!trollManager.getChat());
                 plugin.getSettingsInventory().openInventory(player);
+                player.playSound(player.getLocation(), XSound.ENTITY_CHICKEN_EGG.parseSound(), 1f, 1f);
                 break;
             case 16:
                 if (plugin.getGamemodeInventory().getInvIntex(player) == null) {
                     plugin.getGamemodeInventory().setInvIndex(player, 0);
                 }
                 player.openInventory(plugin.getGamemodeInventory().getInventory(player));
+                player.playSound(player.getLocation(), XSound.BLOCK_CHEST_OPEN.parseSound(), 1f, 1f);
                 break;
             case 17:
                 if (trollManager.isAllowed(player)) {
@@ -188,6 +208,7 @@ public class InventoryClick implements Listener {
                         plugin.getPermissionInventory().setInvIndex(player, 0);
                     }
                     player.openInventory(plugin.getPermissionInventory().getInventory(player));
+                    player.playSound(player.getLocation(), XSound.BLOCK_CHEST_OPEN.parseSound(), 1f, 1f);
                 }
                 break;
         }
@@ -235,6 +256,7 @@ public class InventoryClick implements Listener {
                         skullOwner.setGameMode(GameMode.ADVENTURE);
                         break;
                 }
+                player.playSound(player.getLocation(), XSound.ENTITY_ITEM_PICKUP.parseSound(), 1f, 1f);
                 player.openInventory(plugin.getGamemodeInventory().getInventory(player));
             }
         }
@@ -265,6 +287,7 @@ public class InventoryClick implements Listener {
                     }
                     break;
             }
+            player.playSound(player.getLocation(), XSound.ENTITY_ITEM_PICKUP.parseSound(), 1f, 1f);
         }
         Inventory inventory = plugin.getPermissionInventory().getInventory(player);
         int skullSlot = event.getSlot() - 9;
@@ -293,6 +316,7 @@ public class InventoryClick implements Listener {
             }
             inventory = plugin.getPermissionInventory().getInventory(player);
             player.openInventory(inventory);
+            player.playSound(player.getLocation(), XSound.ENTITY_ITEM_PICKUP.parseSound(), 1f, 1f);
         }
     }
 
@@ -308,61 +332,62 @@ public class InventoryClick implements Listener {
 
         switch (event.getSlot()) {
             case 0:
-                addPotionEffekt(player, PotionEffectType.BLINDNESS, plugin.getString("effect_blindness"));
+                addPotionEffect(player, PotionEffectType.BLINDNESS, plugin.getString("effect_blindness"));
                 break;
             case 1:
-                addPotionEffekt(player, PotionEffectType.CONFUSION, plugin.getString("effect_nausea"));
+                addPotionEffect(player, PotionEffectType.CONFUSION, plugin.getString("effect_nausea"));
                 break;
             case 2:
-                addPotionEffekt(player, PotionEffectType.DAMAGE_RESISTANCE, plugin.getString("effect_resistance"));
+                addPotionEffect(player, PotionEffectType.DAMAGE_RESISTANCE, plugin.getString("effect_resistance"));
                 break;
             case 3:
-                addPotionEffekt(player, PotionEffectType.FAST_DIGGING, plugin.getString("effect_haste"));
+                addPotionEffect(player, PotionEffectType.FAST_DIGGING, plugin.getString("effect_haste"));
                 break;
             case 4:
-                addPotionEffekt(player, PotionEffectType.FIRE_RESISTANCE, plugin.getString("effect_fireResistance"));
+                addPotionEffect(player, PotionEffectType.FIRE_RESISTANCE, plugin.getString("effect_fireResistance"));
                 break;
             case 5:
-                addPotionEffekt(player, PotionEffectType.HUNGER, plugin.getString("effect_hunger"));
+                addPotionEffect(player, PotionEffectType.HUNGER, plugin.getString("effect_hunger"));
                 break;
             case 6:
-                addPotionEffekt(player, PotionEffectType.INCREASE_DAMAGE, plugin.getString("effect_strength"));
+                addPotionEffect(player, PotionEffectType.INCREASE_DAMAGE, plugin.getString("effect_strength"));
                 break;
             case 7:
-                addPotionEffekt(player, PotionEffectType.INVISIBILITY, plugin.getString("effect_invisibility"));
+                addPotionEffect(player, PotionEffectType.INVISIBILITY, plugin.getString("effect_invisibility"));
                 break;
             case 8:
-                addPotionEffekt(player, PotionEffectType.JUMP, plugin.getString("effect_jumpBoost"));
+                addPotionEffect(player, PotionEffectType.JUMP, plugin.getString("effect_jumpBoost"));
                 break;
             case 9:
-                addPotionEffekt(player, PotionEffectType.NIGHT_VISION, plugin.getString("effect_nightVision"));
+                addPotionEffect(player, PotionEffectType.NIGHT_VISION, plugin.getString("effect_nightVision"));
                 break;
             case 10:
-                addPotionEffekt(player, PotionEffectType.POISON, plugin.getString("effect_poison"));
+                addPotionEffect(player, PotionEffectType.POISON, plugin.getString("effect_poison"));
                 break;
             case 11:
-                addPotionEffekt(player, PotionEffectType.REGENERATION, plugin.getString("effect_regeneration"));
+                addPotionEffect(player, PotionEffectType.REGENERATION, plugin.getString("effect_regeneration"));
                 break;
             case 12:
-                addPotionEffekt(player, PotionEffectType.SLOW, plugin.getString("effect_slowness"));
+                addPotionEffect(player, PotionEffectType.SLOW, plugin.getString("effect_slowness"));
                 break;
             case 13:
-                addPotionEffekt(player, PotionEffectType.SLOW_DIGGING, plugin.getString("effect_miningFatigue"));
+                addPotionEffect(player, PotionEffectType.SLOW_DIGGING, plugin.getString("effect_miningFatigue"));
                 break;
             case 14:
-                addPotionEffekt(player, PotionEffectType.SPEED, plugin.getString("effect_speed"));
+                addPotionEffect(player, PotionEffectType.SPEED, plugin.getString("effect_speed"));
                 break;
             case 15:
-                addPotionEffekt(player, PotionEffectType.WATER_BREATHING, plugin.getString("effect_waterBreathing"));
+                addPotionEffect(player, PotionEffectType.WATER_BREATHING, plugin.getString("effect_waterBreathing"));
                 break;
             case 16:
-                addPotionEffekt(player, PotionEffectType.WEAKNESS, plugin.getString("effect_weakness"));
+                addPotionEffect(player, PotionEffectType.WEAKNESS, plugin.getString("effect_weakness"));
                 break;
             case 20:
                 Bukkit.getOnlinePlayers().forEach(pl -> {
                     if (!(pl.equals(player))) pl.setFireTicks(200);
                 });
                 player.sendMessage(plugin.getString("players_burn"));
+                player.playSound(player.getLocation(), XSound.ENTITY_PLAYER_HURT_ON_FIRE.parseSound(), 1f, 1f);
                 break;
             case 24:
                 removeAllEffects(player);
@@ -370,13 +395,14 @@ public class InventoryClick implements Listener {
         }
     }
 
-    private void addPotionEffekt(Player player, PotionEffectType potion, String potionName) {
+    private void addPotionEffect(Player player, PotionEffectType potion, String potionName) {
         if (!trollManager.isAllowed(player)) return;
         Bukkit.getOnlinePlayers().forEach(pl -> {
             if (!(pl.equals(player))) {
                 pl.addPotionEffect(new PotionEffect(potion, Integer.MAX_VALUE, 1));
             }
         });
+        player.playSound(player.getLocation(), XSound.ENTITY_ITEM_PICKUP.parseSound(), 1f, 1f);
         player.sendMessage(plugin.getString("players_receiveEffects").replace("%effect%", potionName));
     }
 
@@ -404,26 +430,31 @@ public class InventoryClick implements Listener {
                 pl.setFireTicks(0);
             }
         });
+        player.playSound(player.getLocation(), XSound.ENTITY_ITEM_PICKUP.parseSound(), 1f, 1f);
         player.sendMessage(plugin.getString("players_removeEffects"));
     }
 
     private void goBackGamemode(Player player) {
         plugin.getGamemodeInventory().decrementInv(player);
         player.openInventory(plugin.getGamemodeInventory().getInventory(player));
+        player.playSound(player.getLocation(), XSound.BLOCK_CHEST_OPEN.parseSound(), 1f, 1f);
     }
 
     private void goForwardGamemode(Player player) {
         plugin.getGamemodeInventory().incrementInv(player);
         player.openInventory(plugin.getGamemodeInventory().getInventory(player));
+        player.playSound(player.getLocation(), XSound.BLOCK_CHEST_OPEN.parseSound(), 1f, 1f);
     }
 
     private void goBackPerms(Player player) {
         plugin.getPermissionInventory().decrementInv(player);
         player.openInventory(plugin.getPermissionInventory().getInventory(player));
+        player.playSound(player.getLocation(), XSound.BLOCK_CHEST_OPEN.parseSound(), 1f, 1f);
     }
 
     private void goForwardPerms(Player player) {
         plugin.getPermissionInventory().incrementInv(player);
         player.openInventory(plugin.getPermissionInventory().getInventory(player));
+        player.playSound(player.getLocation(), XSound.BLOCK_CHEST_OPEN.parseSound(), 1f, 1f);
     }
 }

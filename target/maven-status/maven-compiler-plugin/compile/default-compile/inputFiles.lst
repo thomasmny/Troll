@@ -4,6 +4,7 @@
 /Users/thomas/Documents/IntelliJ/Troll/src/main/java/de/eintosti/troll/command/TrollCommand.java
 /Users/thomas/Documents/IntelliJ/Troll/src/main/java/de/eintosti/troll/listener/FoodLevelChange.java
 /Users/thomas/Documents/IntelliJ/Troll/src/main/java/de/eintosti/troll/listener/EntityDamage.java
+/Users/thomas/Documents/IntelliJ/Troll/src/main/java/de/eintosti/troll/util/external/XSound.java
 /Users/thomas/Documents/IntelliJ/Troll/src/main/java/de/eintosti/troll/listener/BlockPlace.java
 /Users/thomas/Documents/IntelliJ/Troll/src/main/java/de/eintosti/troll/manager/InventoryManager.java
 /Users/thomas/Documents/IntelliJ/Troll/src/main/java/de/eintosti/troll/util/Messages.java

@@ -4,6 +4,7 @@ import de.eintosti.troll.Troll;
 import de.eintosti.troll.manager.TrollManager;
 import de.eintosti.troll.util.external.ActionBar;
 import de.eintosti.troll.util.external.XMaterial;
+import de.eintosti.troll.util.external.XSound;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -44,12 +45,13 @@ public class PlayerInteract implements Listener {
                 ItemMeta itemMeta = itemStack.getItemMeta();
                 if (itemMeta == null) return;
                 if (itemMeta.hasDisplayName() && itemMeta.getDisplayName().equals(plugin.getString("troll_item"))) {
+                    event.setCancelled(true);
                     if (!trollManager.isAllowed(player)) {
                         player.sendMessage(plugin.getString("no_permissions"));
                         return;
                     }
-                    event.setCancelled(true);
                     plugin.getTrollInventory().openInventory(player);
+                    player.playSound(player.getLocation(), XSound.BLOCK_CHEST_OPEN.parseSound(), 1f, 1f);
                 }
             }
         }
@@ -67,12 +69,13 @@ public class PlayerInteract implements Listener {
                 ItemMeta itemMeta = itemStack.getItemMeta();
 
                 if (itemMeta.hasDisplayName() && itemMeta.getDisplayName().equals(plugin.getString("effect_item"))) {
+                    event.setCancelled(true);
                     if (!trollManager.isAllowed(player)) {
                         player.sendMessage(plugin.getString("no_permissions"));
                         return;
                     }
-                    event.setCancelled(true);
                     plugin.getEffectInventory().openInventory(player);
+                    player.playSound(player.getLocation(), XSound.BLOCK_CHEST_OPEN.parseSound(), 1f, 1f);
                 }
             }
         }
@@ -111,6 +114,7 @@ public class PlayerInteract implements Listener {
                 return;
             }
             ActionBar.sendHotBarMessage(player, plugin.getString("called_judgementDay"));
+            player.playSound(player.getLocation(), XSound.ENTITY_GHAST_SCREAM.parseSound(), 1f, 1f);
             for (int i = 0; i <= 30; i++) {
                 delayFireball(player, i * 20);
             }
@@ -132,6 +136,7 @@ public class PlayerInteract implements Listener {
                 return;
             }
             ActionBar.sendHotBarMessage(player, plugin.getString("called_tntRain"));
+            player.playSound(player.getLocation(), XSound.ENTITY_FISHING_BOBBER_RETRIEVE.parseSound(), 1f, 1f);
             for (Location location : getLocations(player)) {
                 location.getWorld().spawnEntity(location, EntityType.PRIMED_TNT);
             }

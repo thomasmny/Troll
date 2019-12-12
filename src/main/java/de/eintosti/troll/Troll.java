@@ -110,7 +110,7 @@ public class Troll extends JavaPlugin {
 
     public String getString(String string) {
         try {
-            return messages.messageData.get(string).replace("&", "§").replace("%prefix%", messages.messageData.get("prefix"));
+            return messages.messageData.get(string).replace("%prefix%", messages.messageData.get("prefix")).replace("&", "§");
         } catch (NullPointerException e) {
             messages.createMessageFile();
             return getString(string);

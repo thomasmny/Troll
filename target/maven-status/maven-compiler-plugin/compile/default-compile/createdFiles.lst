@@ -22,4 +22,5 @@ de/eintosti/troll/listener/FoodLevelChange.class
 de/eintosti/troll/inventory/GamemodeInventory.class
 de/eintosti/troll/inventory/SettingsInventory.class
 de/eintosti/troll/listener/ItemPickup.class
+de/eintosti/troll/util/external/XSound.class
 de/eintosti/troll/util/external/XMaterial$MinecraftVersion.class
