@@ -387,7 +387,7 @@ public class InventoryClick implements Listener {
                     if (!(pl.equals(player))) pl.setFireTicks(200);
                 });
                 player.sendMessage(plugin.getString("players_burn"));
-                player.playSound(player.getLocation(), XSound.ENTITY_PLAYER_HURT_ON_FIRE.parseSound(), 1f, 1f);
+                player.playSound(player.getLocation(), XSound.ENTITY_ITEM_PICKUP.parseSound(), 1f, 1f);
                 break;
             case 24:
                 removeAllEffects(player);
