@@ -1,10 +1,9 @@
-trollPlayers:
-    []
+troll-players: [ ]
 knockback: 75
 settings:
-    interactions = true
-    blockDamage = true
-    placeBlocks = true
-    fallDamage = true
-    hunger = true
-    chat = true
+  interactions: true
+  block-damage: true
+  place-blocks: true
+  fall-damage: true
+  hunger: true
+  chat: true

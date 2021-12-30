@@ -1,16 +1,16 @@
 name: Troll
-version: 1.2
-main: de.eintosti.troll.Troll
-description: Time to have a blast
-author: einTosti
+version: ${project.version}
 api-version: 1.13
+author: einTosti
+main: com.eintosti.troll.Troll
+description: Time to have a blast!
 
 commands:
-    Troll:
-       description: Time to have a blast
-       usage: /<command>
+  troll:
+    description: Time to have a blast!
+    usage: /<command>
 
 permissions:
-    troll.use:
-        description: Not everybody can have all of the fun...
-        default: OP
+  troll.use:
+    description: Not everybody can have all of the fun...
+    default: op

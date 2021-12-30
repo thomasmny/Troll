@@ -5,31 +5,93 @@
       <artifact name="Troll:jar" />
     </artifacts-to-build>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="ade781fb-7e8b-4000-ba10-84d097f98a5f" name="Default" comment="Added support for 1.13 &amp; 1.14">
-      <change afterPath="$PROJECT_DIR$/.idea/Troll.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/util/external/XSound.java" afterDir="false" />
+    <list default="true" id="ade781fb-7e8b-4000-ba10-84d097f98a5f" name="Default" comment="Changed fire sounds">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eintosti/troll/Troll.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eintosti/troll/command/TrollCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eintosti/troll/inventory/EffectInventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eintosti/troll/inventory/GamemodeInventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eintosti/troll/inventory/PermissionInventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eintosti/troll/inventory/SettingsInventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eintosti/troll/inventory/TrollInventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eintosti/troll/listener/BlockBreakListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eintosti/troll/listener/BlockPlaceListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eintosti/troll/listener/EntityDamageListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eintosti/troll/listener/EntityExplodeListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eintosti/troll/listener/FoodLevelChangeListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eintosti/troll/listener/InventoryClickListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eintosti/troll/listener/ItemPickupListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eintosti/troll/listener/PlayerChatListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eintosti/troll/listener/PlayerInteractListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eintosti/troll/manager/TrollManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eintosti/troll/util/ItemBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/eintosti/troll/util/Messages.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Troll.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/Troll.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/Troll.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/listener/InventoryClick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/listener/InventoryClick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/listener/PlayerInteract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/listener/PlayerInteract.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/util/Messages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/util/Messages.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/Troll.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/command/TrollCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/inventory/EffectInventory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/inventory/GamemodeInventory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/inventory/PermissionInventory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/inventory/SettingsInventory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/inventory/TrollInventory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/listener/BlockBreak.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/listener/BlockPlace.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/listener/EntityDamage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/listener/EntityExplode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/listener/FoodLevelChange.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/listener/InventoryClick.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/listener/ItemPickup.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/listener/PlayerChat.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/listener/PlayerInteract.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/manager/InventoryManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/manager/TrollManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/util/Messages.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/util/external/ActionBar.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/util/external/XMaterial.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/eintosti/troll/util/external/XSound.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/messages.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/messages.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/Troll.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/eintosti/troll/Troll.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/listener/InventoryClick$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/eintosti/troll/listener/InventoryClick$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/listener/InventoryClick.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/eintosti/troll/listener/InventoryClick.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/listener/PlayerInteract.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/eintosti/troll/listener/PlayerInteract.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/util/Messages.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/de/eintosti/troll/util/Messages.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/Troll.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/command/TrollCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/inventory/EffectInventory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/inventory/GamemodeInventory$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/inventory/GamemodeInventory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/inventory/PermissionInventory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/inventory/SettingsInventory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/inventory/TrollInventory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/listener/BlockBreak.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/listener/BlockPlace.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/listener/EntityDamage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/listener/EntityExplode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/listener/FoodLevelChange.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/listener/InventoryClick$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/listener/InventoryClick.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/listener/ItemPickup.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/listener/PlayerChat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/listener/PlayerInteract.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/manager/InventoryManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/manager/TrollManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/util/Messages.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/util/external/ActionBar.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/util/external/XMaterial$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/util/external/XMaterial$MinecraftVersion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/de/eintosti/troll/util/external/XMaterial.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/messages.yml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/troll-1.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -54,21 +116,28 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="importAutomatically" value="true" />
-      </MavenImportingSettings>
-    </option>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="1UtDyw8X7wuxQWtwJ9KpYKSwVzJ" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -81,18 +150,6 @@
       <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="$PROJECT_DIR$/src/main/java" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
     <configuration default="true" type="Application" factoryName="Application">
@@ -118,6 +175,7 @@
       </method>
     </configuration>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -140,7 +198,8 @@
       <workItem from="1538893890187" duration="548000" />
       <workItem from="1539432568025" duration="6670000" />
       <workItem from="1540652569065" duration="79000" />
-      <workItem from="1576167262115" duration="3115000" />
+      <workItem from="1576167262115" duration="3531000" />
+      <workItem from="1640862579736" duration="7347000" />
     </task>
     <task id="LOCAL-00001" summary="Final changes before release">
       <created>1525991507246</created>
@@ -177,7 +236,21 @@
       <option name="project" value="LOCAL" />
       <updated>1570107456906</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Added support for 1.15 + sounds">
+      <created>1576171471027</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1576171471027</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Changed fire sounds">
+      <created>1576171516791</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1576171516792</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView">
@@ -190,7 +263,7 @@
     </todo-panel>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -204,12 +277,15 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Final changes before release" />
     <MESSAGE value="multiple languages" />
     <MESSAGE value="Complete recode" />
     <MESSAGE value="Release commit" />
     <MESSAGE value="Added support for 1.13 &amp; 1.14" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added support for 1.13 &amp; 1.14" />
+    <MESSAGE value="Added support for 1.15 + sounds" />
+    <MESSAGE value="Changed fire sounds" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed fire sounds" />
   </component>
   <component name="masterDetails">
     <states>
