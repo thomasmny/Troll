@@ -1,9 +1,0 @@
-troll-players: [ ]
-knockback: 75
-settings:
-  interactions: true
-  block-damage: true
-  place-blocks: true
-  fall-damage: true
-  hunger: true
-  chat: true
