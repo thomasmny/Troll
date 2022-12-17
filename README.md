@@ -1,4 +1,4 @@
-# Troll ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/einTosti/Troll/Build%20main/master) ![version](https://img.shields.io/github/v/release/einTosti/Troll) [![Discord](https://img.shields.io/discord/419460301403193344.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.com/invite/Nt467Rf)
+# Troll ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/Trichtern/Troll/build.yml?branch=master) ![version](https://img.shields.io/github/v/release/einTosti/Troll) [![Discord](https://img.shields.io/discord/419460301403193344.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.com/invite/Nt467Rf)
 
 ![Screenshot](.github/images/troll_thumbnail.png)
 
